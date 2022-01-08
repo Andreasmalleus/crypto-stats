@@ -1,0 +1,68 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.header {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  top: 0;
+  z-index: 50;
+  max-width: 1300px;
+  margin: auto;
+  margin-bottom: 30px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  margin-right: 40px;
+  @include font-family;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  cursor: pointer;
+  @include font-family;
+
+  div {
+    margin-right: 40px;
+    transition: 250ms;
+
+    &:hover {
+      color: #636363;
+    }
+  }
+}
+.right {
+  display: flex;
+}
+
+.loginButton {
+  @include button;
+  @include font-family;
+  margin-right: 20px;
+  background-color: transparent;
+}
+
+.signupButton {
+  @include font-family;
+  @include button;
+  margin-right: 20px;
+}
+
+.searchButton {
+  @include font-family;
+  @include button;
+  width: 200px;
+
+  @include placeholder {
+    color: white;
+  }
+}

@@ -1,0 +1,38 @@
+@import "./variables.scss";
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+@mixin button {
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin: auto;
+  background-color: rgb(23, 23, 23);
+  transition: 250ms;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+@mixin font-family {
+  font-family: $main-font;
+  font-size: $main-font-size;
+  font-weight: $main-font-weight;
+  color: $main-font-color;
+}
