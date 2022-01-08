@@ -1,0 +1,17 @@
+@import "./mixins.scss";
+
+.globalStats {
+  max-width: 1300px;
+  margin: auto;
+}
+
+.globalStatsContainer {
+  display: flex;
+  margin-top: 20px;
+
+  div {
+    margin-right: 40px;
+    @include font-family;
+    font-size: 11px;
+  }
+}

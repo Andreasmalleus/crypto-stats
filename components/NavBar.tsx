@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "../styles/navbar.module.scss";
+import { GlobalStats } from "./GlobalStats";
 
 export const NavBar: React.FC = () => {
   return (
     <div>
+      <GlobalStats />
       <header className={styles.header}>
         <div className={styles.left}>
           <div className={styles.title}>CryptoMarketStats</div>
