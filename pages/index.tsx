@@ -1,13 +1,12 @@
 import type { NextPage } from "next";
 import { Cryptolist } from "../components/CryptoList";
-import { NavBar } from "../components/NavBar";
+import { Layout } from "../components/Layout";
 
 const Home: NextPage = () => {
   return (
-    <div>
-      <NavBar />
+    <Layout>
       <Cryptolist />
-    </div>
+    </Layout>
   );
 };
 
