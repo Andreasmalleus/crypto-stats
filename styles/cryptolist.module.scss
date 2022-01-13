@@ -24,6 +24,7 @@
 .tbody {
   tr {
     border-bottom: 1px solid lightgrey;
+    transition: 250ms;
 
     th {
       padding-top: 13px;
@@ -35,6 +36,10 @@
 
     th:nth-child(n + 4) {
       text-align: right;
+    }
+
+    &:hover {
+      background-color: rgb(246, 249, 253);
     }
   }
   .star {
