@@ -36,7 +36,7 @@ export const Cryptolist: React.FC = () => {
           <th>7d %</th>
           <th>Market Cap</th>
           <th>Volume(24h)</th>
-          <th>Ciculating Suppply</th>
+          <th>Circulating Suppply</th>
           <th>Last 7 days</th>
         </tr>
       </thead>
@@ -55,12 +55,14 @@ export const Cryptolist: React.FC = () => {
             <th>{index + 1}</th>
             <th>
               <div className={styles.listingContainer}>
-                <Image
-                  src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
-                  alt=""
-                  width={20}
-                  height={20}
-                />
+                <div style={{ borderRadius: "20px" }}>
+                  <Image
+                    src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
+                    alt=""
+                    width={20}
+                    height={20}
+                  />
+                </div>
                 <span className={styles.listingName}>{listing.name}</span>
                 <span className={styles.listingSymbol}>{listing.symbol}</span>
                 <button>Buy</button>
