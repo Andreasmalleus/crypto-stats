@@ -47,8 +47,8 @@ export const Cryptolist: React.FC = () => {
               <Image
                 src="/icons/star-empty.svg"
                 alt=""
-                width={20}
-                height={20}
+                width={13}
+                height={13}
                 className={styles.star}
               />
             </th>
