@@ -1,13 +1,14 @@
-import type { NextPage } from 'next'
-import { NavBar  } from '../components/NavBar'
+import type { NextPage } from "next";
+import { Cryptolist } from "../components/CryptoList";
+import { NavBar } from "../components/NavBar";
 
 const Home: NextPage = () => {
   return (
     <div>
       <NavBar />
-      Home
+      <Cryptolist />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
