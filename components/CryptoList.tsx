@@ -1,6 +1,7 @@
 import { listings } from "../data";
 import styles from "../styles/cryptolist.module.scss";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Cryptolist: React.FC = () => {
   const { data } = listings;
@@ -53,21 +54,23 @@ export const Cryptolist: React.FC = () => {
               />
             </th>
             <th>{index + 1}</th>
-            <th>
-              <div className={styles.listingContainer}>
-                <div style={{ borderRadius: "20px" }}>
-                  <Image
-                    src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
-                    alt=""
-                    width={20}
-                    height={20}
-                  />
+            <Link href={`/currencies/${listing.name.toLowerCase()}`}>
+              <th>
+                <div className={styles.listingContainer}>
+                  <div style={{ borderRadius: "20px" }}>
+                    <Image
+                      src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
+                      alt=""
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                  <span className={styles.listingName}>{listing.name}</span>
+                  <span className={styles.listingSymbol}>{listing.symbol}</span>
+                  <button>Buy</button>
                 </div>
-                <span className={styles.listingName}>{listing.name}</span>
-                <span className={styles.listingSymbol}>{listing.symbol}</span>
-                <button>Buy</button>
-              </div>
-            </th>
+              </th>
+            </Link>
             <th>${formatCurrency(listing.quote.USD.price)}</th>
             <th
               style={{ color: getColor(listing.quote.USD.percent_change_24h) }}
