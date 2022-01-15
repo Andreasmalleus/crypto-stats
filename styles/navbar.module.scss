@@ -21,8 +21,9 @@
 .title {
   margin-right: 40px;
   @include font-family;
-  font-size: 15px;
+  font-size: 17px;
   cursor: pointer;
+  font-family: "Inter Bold";
 }
 
 .options {
