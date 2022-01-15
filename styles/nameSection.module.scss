@@ -1,0 +1,69 @@
+@import "./mixins.scss";
+
+.nameSection {
+  display: flex;
+  flex-direction: column;
+
+  .nameContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .name {
+      font-size: 28px;
+      font-family: "Inter Bold";
+      margin-left: 10px;
+    }
+    .symbol {
+      @include font-family;
+      background-color: rgb(237, 239, 243);
+      border: none;
+      border-radius: 5px;
+      padding: 5px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  .infoContainer {
+    display: flex;
+    margin-bottom: 5px;
+    div {
+      font-family: "Inter Regular";
+      color: grey;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: rgb(237, 239, 243);
+      font-size: 10px;
+    }
+    div:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+
+  .tagsContainer {
+    .tagHeading {
+      @include font-family;
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+
+    .tags {
+      display: flex;
+      margin-bottom: 5px;
+
+      div {
+        font-family: "Inter Regular";
+        color: grey;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: rgb(237, 239, 243);
+        font-size: 10px;
+      }
+      div:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
+}

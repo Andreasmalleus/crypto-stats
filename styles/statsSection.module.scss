@@ -1,0 +1,99 @@
+@import "./mixins.scss";
+
+.statsSection {
+  display: flex;
+  flex-direction: column;
+
+  .heading {
+    @include font-family;
+    font-size: 10px;
+    margin-bottom: 5px;
+  }
+
+  .priceContainer {
+    display: flex;
+    align-items: center;
+
+    .price {
+      font-family: "Inter Bold";
+      font-size: 28px;
+    }
+
+    .percentChange {
+      font-family: "Inter Regular";
+      font-size: 10px;
+      margin-left: 10px;
+      border-radius: 5px;
+      padding: 7px;
+      padding-right: 10px;
+      padding-left: 10px;
+      color: white;
+    }
+  }
+
+  .buyOptions {
+    button {
+      @include button;
+      font-size: 10px;
+      padding: 7px;
+      margin-left: 10px;
+    }
+  }
+
+  .statsContainer {
+    border-top: 1px solid rgb(237, 239, 243);
+    display: flex;
+
+    .stat {
+      margin-top: 20px;
+      border-right: 1px solid rgb(237, 239, 243);
+      padding: 20px;
+
+      .statHeading {
+        @include font-family;
+        font-size: 10px;
+        color: grey;
+        margin-bottom: 5px;
+      }
+      .rate {
+        font-family: "Inter Bold";
+        font-size: 10px;
+      }
+
+      .priceWithPercentage {
+        display: flex;
+        align-items: center;
+        font-size: 10px;
+        font-family: "Inter Regular";
+        margin-bottom: 5px;
+        justify-content: space-between;
+      }
+
+      .statsBar {
+        height: 5px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        position: relative;
+        background-color: rgb(237, 239, 243);
+
+        .fill {
+          display: block;
+          height: 100%;
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+          position: relative;
+          background-color: lightgrey;
+        }
+      }
+
+      .maxSupply,
+      .totalSupply {
+        display: flex;
+
+        div:not(:first-child) {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
