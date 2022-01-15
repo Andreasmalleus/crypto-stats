@@ -2,28 +2,13 @@ import { listings } from "../data";
 import styles from "../styles/cryptolist.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { getColor } from "../utils/getColor";
+import { getFilters } from "../utils/getFilters";
+import { formatCurrency } from "../utils/formatCurrency";
+import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
 
 export const Cryptolist: React.FC = () => {
   const { data } = listings;
-
-  const getColor = (val: number) => {
-    return val > 0 ? "#2BB771" : "#DF2C4E";
-  };
-
-  const getFilters = (val: number) => {
-    const prefixFilter = "brightness(0) saturate(100%)";
-    return val > 0
-      ? `${prefixFilter} invert(50%) sepia(53%) saturate(533%) hue-rotate(97deg) brightness(106%) contrast(95%)`
-      : `${prefixFilter} brightness(0) saturate(100%) invert(27%) sepia(31%) saturate(5812%) hue-rotate(331deg) brightness(90%) contrast(94%)`;
-  };
-
-  const formatPercentageToTwoDecimalPlaces = (val: number) => {
-    return val.toFixed(2);
-  };
-
-  const formatCurrency = (val: number) => {
-    return val.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, ",");
-  };
 
   return (
     <table className={styles.table}>
