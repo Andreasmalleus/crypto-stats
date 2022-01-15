@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/navbar.module.scss";
 import { GlobalStats } from "./GlobalStats";
 
-export const NavBar: React.FC = () => {
+export const Navbar: React.FC = () => {
   return (
     <div>
       <GlobalStats />

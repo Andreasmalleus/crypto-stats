@@ -1,5 +1,5 @@
 import { listings } from "../data";
-import styles from "../styles/cryptolist.module.scss";
+import styles from "../styles/cryptolList.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { getColor } from "../utils/getColor";

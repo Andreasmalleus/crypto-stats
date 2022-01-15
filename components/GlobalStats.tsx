@@ -1,5 +1,5 @@
 import { general } from "../data";
-import styles from "../styles/globalstats.module.scss";
+import styles from "../styles/globalStats.module.scss";
 
 export const GlobalStats = () => {
   const {
