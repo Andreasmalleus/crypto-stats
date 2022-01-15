@@ -39,8 +39,8 @@ export const Cryptolist: React.FC = () => {
               />
             </th>
             <th>{index + 1}</th>
-            <Link href={`/currencies/${listing.name.toLowerCase()}`}>
-              <th>
+            <th>
+              <Link href={`/currencies/${listing.name.toLowerCase()}`}>
                 <div className={styles.listingContainer}>
                   <div style={{ borderRadius: "20px" }}>
                     <Image
@@ -54,9 +54,13 @@ export const Cryptolist: React.FC = () => {
                   <span className={styles.listingSymbol}>{listing.symbol}</span>
                   <button>Buy</button>
                 </div>
+              </Link>
+            </th>
+            <Link href={`/currencies/${listing.name.toLowerCase()}`}>
+              <th style={{ cursor: "pointer" }}>
+                ${formatCurrency(listing.quote.USD.price)}
               </th>
             </Link>
-            <th>${formatCurrency(listing.quote.USD.price)}</th>
             <th
               style={{ color: getColor(listing.quote.USD.percent_change_24h) }}
             >
@@ -82,13 +86,16 @@ export const Cryptolist: React.FC = () => {
               <span>{listing.symbol}</span>
             </th>
             <th>
-              <img
-                src={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${listing.id}.svg`}
-                alt=""
-                style={{
-                  filter: getFilters(listing.quote.USD.percent_change_7d),
-                }}
-              />
+              <Link href={`/currencies/${listing.name.toLowerCase()}`}>
+                <img
+                  src={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${listing.id}.svg`}
+                  alt=""
+                  style={{
+                    filter: getFilters(listing.quote.USD.percent_change_7d),
+                    cursor: "pointer",
+                  }}
+                />
+              </Link>
             </th>
           </tr>
         ))}
