@@ -4,6 +4,8 @@ import { Layout } from "../../components/Layout";
 import { metaData, coin } from "../../data";
 import { NameSection } from "../../components/NameSection";
 import { StatsSection } from "../../components/StatsSection";
+import Image from "next/image";
+import Link from "next/link";
 
 const CryptoPage: NextPage = () => {
   const router = useRouter();
@@ -28,6 +30,19 @@ const CryptoPage: NextPage = () => {
 
   return (
     <Layout>
+      <div className="flex items-center text-xs text-slate-600 mb-10 p-1">
+        <Link href="/">
+          <a className="mr-2 cursor-pointer hover:underline">
+            Cryptocurrencies
+          </a>
+        </Link>
+        <Image src="/icons/arrow-right.svg" width={10} height={10} />
+        <Link href="/">
+          <a className="mr-2 ml-2 cursor-pointer hover:underline">Coins</a>
+        </Link>
+        <Image src="/icons/arrow-right.svg" width={10} height={10} />
+        <a className="ml-2 text-black">{name}</a>
+      </div>
       <div className="flex">
         <NameSection
           {...{
