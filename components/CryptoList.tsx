@@ -1,5 +1,4 @@
 import { listings } from "../data";
-import styles from "../styles/cryptolList.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { getColor } from "../utils/getColor";
@@ -11,58 +10,63 @@ export const Cryptolist: React.FC = () => {
   const { data } = listings;
 
   return (
-    <table className={styles.table}>
-      <thead className={styles.thead}>
-        <tr>
-          <th></th>
-          <th>#</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>24h %</th>
-          <th>7d %</th>
-          <th>Market Cap</th>
-          <th>Volume(24h)</th>
-          <th>Circulating Suppply</th>
-          <th>Last 7 days</th>
+    <table className="w-full m-auto border-collapse">
+      <thead>
+        <tr className="font-headings">
+          <th className="table-header text-left"></th>
+          <th className="table-header text-left">#</th>
+          <th className="table-header text-left">Name</th>
+          <th className="table-header">Price</th>
+          <th className="table-header">24h %</th>
+          <th className="table-header">7d %</th>
+          <th className="table-header">Market Cap</th>
+          <th className="table-header">Volume(24h)</th>
+          <th className="table-header">Circulating Suppply</th>
+          <th className="table-header">Last 7 days</th>
         </tr>
       </thead>
-      <tbody className={styles.tbody}>
+      <tbody className="border-b-2 border-slate-100">
         {data.map((listing, index) => (
-          <tr key={listing.id}>
-            <th>
+          <tr
+            key={listing.id}
+            className="border-b-2 border-slate-100 transition duration-250"
+          >
+            <th className="table-entry text-left px-3">
               <Image
                 src="/icons/star-empty.svg"
                 alt=""
                 width={13}
                 height={13}
-                className={styles.star}
+                className="cursor-pointer"
               />
             </th>
-            <th>{index + 1}</th>
-            <th>
+            <th className="table-entry text-left">{index + 1}</th>
+            <th className="table-entry text-left">
               <Link href={`/currencies/${listing.name.toLowerCase()}`}>
-                <div className={styles.listingContainer}>
-                  <div style={{ borderRadius: "20px" }}>
-                    <Image
-                      src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
-                      alt=""
-                      width={20}
-                      height={20}
-                    />
-                  </div>
-                  <span className={styles.listingName}>{listing.name}</span>
-                  <span className={styles.listingSymbol}>{listing.symbol}</span>
-                  <button>Buy</button>
+                <div className="flex justify-center items-center cursor-pointer">
+                  <Image
+                    src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="rounded-full"
+                  />
+                  <span className="ml-2">{listing.name}</span>
+                  <span className="ml-2 text-slate-400">{listing.symbol}</span>
+                  <button className="ml-2 text-black rounded-md text-xs py-1 px-2 cursor-pointer m-auto bg-slate-200">
+                    Buy
+                  </button>
                 </div>
               </Link>
             </th>
             <Link href={`/currencies/${listing.name.toLowerCase()}`}>
-              <th style={{ cursor: "pointer" }}>
+              <th style={{ cursor: "pointer" }} className="table-entry">
                 ${formatCurrency(listing.quote.USD.price)}
               </th>
             </Link>
             <th
               style={{ color: getColor(listing.quote.USD.percent_change_24h) }}
+              className="table-entry"
             >
               {formatPercentageToTwoDecimalPlaces(
                 listing.quote.USD.percent_change_24h
@@ -71,21 +75,26 @@ export const Cryptolist: React.FC = () => {
             </th>
             <th
               style={{ color: getColor(listing.quote.USD.percent_change_7d) }}
+              className="table-entry"
             >
               {formatPercentageToTwoDecimalPlaces(
                 listing.quote.USD.percent_change_7d
               )}
               %
             </th>
-            <th>${formatCurrency(listing.quote.USD.market_cap)}</th>
-            <th>${formatCurrency(listing.quote.USD.volume_24h)}</th>
-            <th>
-              <span className={styles.circulatingSupply}>
+            <th className="table-entry">
+              ${formatCurrency(listing.quote.USD.market_cap)}
+            </th>
+            <th className="table-entry">
+              ${formatCurrency(listing.quote.USD.volume_24h)}
+            </th>
+            <th className="table-entry">
+              <span className="mr-1">
                 {formatCurrency(listing.circulating_supply)}
               </span>
               <span>{listing.symbol}</span>
             </th>
-            <th>
+            <th className="table-entry">
               <Link href={`/currencies/${listing.name.toLowerCase()}`}>
                 <img
                   src={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${listing.id}.svg`}
@@ -93,6 +102,7 @@ export const Cryptolist: React.FC = () => {
                   style={{
                     filter: getFilters(listing.quote.USD.percent_change_7d),
                     cursor: "pointer",
+                    display: "inline",
                   }}
                 />
               </Link>

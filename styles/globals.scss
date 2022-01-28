@@ -1,3 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply text-white text-xs border-none rounded p-2 cursor-pointer m-auto bg-gray-900 transition duration-200 hover:opacity-90;
+  }
+  .table-header {
+    @apply text-right pt-3 pb-3 text-xs border-b-2 border-slate-100;
+  }
+  .table-entry {
+    @apply py-2 text-right text-xs;
+  }
+}
+
+@font-face {
+  font-family: "Inter Regular";
+  src: url("/fonts/Inter-Light.ttf");
+}
+@font-face {
+  font-family: "Inter Bold";
+  src: url("/fonts/Inter-Bold.ttf");
+}
+
 html,
 body {
   padding: 0;
@@ -11,13 +36,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-@font-face {
-  font-family: "Inter Regular";
-  src: url("/fonts/Inter-Light.ttf");
-}
-@font-face {
-  font-family: "Inter Bold";
-  src: url("/fonts/Inter-Bold.ttf");
 }

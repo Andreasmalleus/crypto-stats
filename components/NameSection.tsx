@@ -1,5 +1,4 @@
 import Image from "next/image";
-import styles from "../styles/nameSection.module.scss";
 
 interface NameSectionProps {
   logo: string;
@@ -26,33 +25,47 @@ export const NameSection: React.FC<NameSectionProps> = ({
   };
 
   return (
-    <div className={styles.nameSection}>
+    <section className="flex-col w-4/12">
       {/* image and name of the currency */}
-      <div className={styles.nameContainer}>
+      <div className="flex items-center mb-4">
         <Image src={logo} width={30} height={30} />
-        <div className={styles.name}>{name}</div>
-        <div className={styles.symbol}>{symbol}</div>
-        <Image src="/icons/star-empty.svg" alt="" width={15} height={15} />
+        <div className="text-3xl ml-3 font-headings">{name}</div>
+        <div className="text-xs text-slate-600 bg-gray-200 border-none rounded-md p-1 ml-3 mr-3">
+          {symbol}
+        </div>
+        <div className="border py-1 px-2 rounded-lg">
+          <Image src="/icons/star-empty.svg" alt="" width={15} height={15} />
+        </div>
       </div>
       {/* additional information about the currency */}
-      <div className={styles.infoContainer}>
-        <div>Rank #{rank}</div>
-        <div>{category}</div>
-        <div>Updated: {formatDate(updated)}</div>
+      <div className="flex mb-6">
+        <div className="text-xs text-slate-600 rounded p-1 bg-gray-200 mr-2">
+          Rank #{rank}
+        </div>
+        <div className="text-xs text-slate-600 rounded p-1 bg-gray-200 mr-2">
+          {" "}
+          {category}
+        </div>
+        <div className="text-xs text-slate-600 rounded p-1 bg-gray-200">
+          Updated: {formatDate(updated)}
+        </div>
       </div>
       {/* tags for the currency */}
-      <div className={styles.tagsContainer}>
-        <div className={styles.tagHeading}>Tags: </div>
-        <div className={styles.tags}>
+      <div>
+        <div className="text-xs mb-1">Tags: </div>
+        <div className="flex mb-2">
           {tags.slice(0, 3).map((tag) => {
             return (
-              <div key={tag} className={styles.tag}>
+              <div
+                key={tag}
+                className="text-xs text-slate-600 rounded p-1 bg-gray-200 mr-2"
+              >
                 {tag}
               </div>
             );
           })}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

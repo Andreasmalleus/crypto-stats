@@ -1,4 +1,3 @@
-import styles from "../styles/statsSection.module.scss";
 import { formatCurrency } from "../utils/formatCurrency";
 import { getColor } from "../utils/getColor";
 
@@ -41,69 +40,72 @@ export const StatsSection: React.FC<StatsSectionProps> = ({
   );
 
   return (
-    <div className={styles.statsSection}>
-      <div className={styles.heading}>
+    <section className="flex-col w-8/12">
+      <div className="text-xs mb-2">
         {name} Price ({symbol})
       </div>
-      <div className={styles.priceContainer}>
-        <div className={styles.price}>€ {formatCurrency(price)}</div>
+      <div className="flex items-center mb-2">
+        <div className="text-4xl font-headings">€ {formatCurrency(price)}</div>
         <div
-          className={styles.percentChange}
+          className="text-xs ml-2 rounded p-1 px-2 text-white"
           style={{
             backgroundColor: getColor(percentChange1h),
           }}
         >
           {formatCurrency(percentChange1h)}%
         </div>
-        <div className={styles.buyOptions}>
-          <button>Buy</button>
-          <button>Exchange</button>
+        <div>
+          <button className="btn-primary text-xs p-1 px-2 ml-2">Buy</button>
+          <button className="btn-primary text-xs p-1 px-2 ml-2">
+            Exchange
+          </button>
         </div>
       </div>
+
       {/* statistics about the currency itself */}
-      <div className={styles.statsContainer}>
+      <div className="border-t-2 border-slate-100 flex justify-center">
         <Stat title="Market Cap" value={marketCap} />
         <Stat title="Market Cap Dominance" value={marketCapDominance} />
         <Stat title="Fully Diluted Market Cap" value={fullyDilutedMarket_cap} />
         <Stat title="Volume" value={volume24h} />
         {/* Stat column with more information */}
-        <div className={styles.stat}>
-          <div className={styles.statHeading}>Circulating Supply</div>
-          <div className={styles.priceWithPercentage}>
-            <div className={styles.rate}>
+
+        <div className="mt-4 p-4">
+          <div className="text-xs text-slate-600 mb-2">Circulating Supply</div>
+          <div className="flex items-center text-xs mb-2 justify-between">
+            <div className="text-xs">
               {formatCurrency(circulatinSupply)} {symbol}
             </div>
-            <div className={styles.percentage}>
-              {volumePercentage.toFixed(0)}%
-            </div>
+            <div className="text-xs">{volumePercentage.toFixed(0)}%</div>
           </div>
-          <div className={styles.statsBar}>
+          <div className="h-1 rounded mb-5 relative bg-gray-200">
             <div
-              className={styles.fill}
+              className="block h-full relative bg-slate-600 rounded-tl-md rounded-bl-md"
               style={{
                 width: `${volumePercentage}%`,
               }}
             ></div>
           </div>
-          <div className={styles.maxSupply}>
-            <div className={styles.statHeading}>Max Supply:</div>
-            <div className={styles.rate}>{formatCurrency(maxSupply)}</div>
+
+          <div className="flex items-center">
+            <div className="text-xs text-slate-600 mr-2">Max Supply:</div>
+            <div className="text-xs">{formatCurrency(maxSupply)}</div>
           </div>
-          <div className={styles.totalSupply}>
-            <div className={styles.statHeading}>Total Supply:</div>
-            <div className={styles.rate}>{formatCurrency(totalSupply)}</div>
+          <div className="flex items-center">
+            <div className="text-xs text-slate-600 mr-2">Total Supply:</div>
+            <div className="text-xs">{formatCurrency(totalSupply)}</div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 const Stat: React.FC<{ value: number; title: string }> = ({ value, title }) => {
   return (
-    <div className={styles.stat}>
-      <div className={styles.statHeading}>{title}</div>
-      <div className={styles.rate}>€{formatCurrency(value)}</div>
+    <div className="mt-4 border-r-2 border-slate-100 p-4">
+      <div className="text-xs text-slate-600 mb-2">{title}</div>
+      <div className="text-xs">€{formatCurrency(value)}</div>
     </div>
   );
 };

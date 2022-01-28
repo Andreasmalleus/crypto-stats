@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Layout } from "../../components/Layout";
 import { metaData, coin } from "../../data";
-import styles from "../../styles/currency.module.scss";
 import { NameSection } from "../../components/NameSection";
 import { StatsSection } from "../../components/StatsSection";
 
@@ -29,7 +28,7 @@ const CryptoPage: NextPage = () => {
 
   return (
     <Layout>
-      <div className={styles.main}>
+      <div className="flex">
         <NameSection
           {...{
             logo,

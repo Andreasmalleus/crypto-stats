@@ -4,9 +4,7 @@ export const Layout: React.FC = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main style={{ maxWidth: "1300px", width: "100%", margin: "auto" }}>
-        {children}
-      </main>
+      <main className="max-w-screen-xl m-auto font-body">{children}</main>
     </>
   );
 };
