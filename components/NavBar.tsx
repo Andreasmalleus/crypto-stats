@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { GlobalStats } from "./GlobalStats";
 
@@ -7,17 +8,19 @@ export const Navbar: React.FC = () => {
       <GlobalStats />
       <header className="h-50 flex justify-between top-0 z-50 max-w-screen-xl m-auto mb-8 font-headings">
         <div className="flex items-center">
-          <div className="text-xl mr-8">CryptoMarketStats</div>
+          <Link href={"/"}>
+            <a className="text-xl mr-8 cursor-pointer">CryptoMarketStats</a>
+          </Link>
           <div className="flex items-center">
-            <div className="text-xs mr-8 transition duration-200 hover:text-slate-500 cursor-pointer">
+            <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
               Cyptocurrencies
-            </div>
-            <div className="text-xs mr-8 transition duration-200 hover:text-slate-500 cursor-pointer">
+            </a>
+            <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
               Exchanges
-            </div>
-            <div className="text-xs mr-8 transition duration-200 hover:text-slate-500 cursor-pointer">
+            </a>
+            <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
               Favorites
-            </div>
+            </a>
           </div>
         </div>
         <div className="flex items-center font-body">
