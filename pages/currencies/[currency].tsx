@@ -10,6 +10,7 @@ import { Chart } from "../../components/Chart";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { formatPercentageToTwoDecimalPlaces } from "../../utils/formatPercentage";
 import { getColor } from "../../utils/getColor";
+import { Converter } from "../../components/Converter";
 
 const CryptoPage: NextPage = () => {
   const router = useRouter();
@@ -78,7 +79,7 @@ const CryptoPage: NextPage = () => {
       <div className="flex">
         <div className="flex-col w-8/12">
           <Chart />
-          Converter
+          <Converter logo={logo} symbol={symbol} name={name} />
         </div>
         <div className="w-4/12 ml-10">
           <h1 className="font-headings text-2xl mb-6">
