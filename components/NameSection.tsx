@@ -30,7 +30,7 @@ export const NameSection: React.FC<NameSectionProps> = ({
       <div className="flex items-center mb-4">
         <Image src={logo} width={30} height={30} />
         <div className="text-3xl ml-3 font-headings">{name}</div>
-        <div className="text-xs text-slate-600 bg-gray-200 border-none rounded-md p-1 ml-3 mr-3">
+        <div className="text-xs text-slate-600 bg-slate-100 border-none rounded-md p-1 ml-3 mr-3">
           {symbol}
         </div>
         <div className="border py-1 px-2 rounded-lg">
@@ -39,14 +39,14 @@ export const NameSection: React.FC<NameSectionProps> = ({
       </div>
       {/* additional information about the currency */}
       <div className="flex mb-6">
-        <div className="text-xs text-slate-600 rounded p-1 bg-gray-200 mr-2">
+        <div className="text-xs text-slate-600 rounded p-1 bg-slate-100 mr-2">
           Rank #{rank}
         </div>
-        <div className="text-xs text-slate-600 rounded p-1 bg-gray-200 mr-2">
+        <div className="text-xs text-slate-600 rounded p-1 bg-slate-100 mr-2">
           {" "}
           {category}
         </div>
-        <div className="text-xs text-slate-600 rounded p-1 bg-gray-200">
+        <div className="text-xs text-slate-600 rounded p-1 bg-slate-100">
           Updated: {formatDate(updated)}
         </div>
       </div>
@@ -58,7 +58,7 @@ export const NameSection: React.FC<NameSectionProps> = ({
             return (
               <div
                 key={tag}
-                className="text-xs text-slate-600 rounded p-1 bg-gray-200 mr-2"
+                className="text-xs text-slate-600 rounded p-1 bg-slate-100 mr-2"
               >
                 {tag}
               </div>
