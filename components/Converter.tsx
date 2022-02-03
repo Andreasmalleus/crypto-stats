@@ -22,13 +22,9 @@ export const Converter: React.FC<ConverterProps> = ({ logo, symbol, name }) => {
         {symbol} TO EUR Converter
       </h1>
       <div className="flex items-center w-full rounded-xl border border-slate-200 relative">
-        <div className="w-1/2 flex justify-between items-center p-4">
+        <div className="w-1/2 flex items-center p-4 justify-between">
           <Currency
-            logo={
-              isSwitched
-                ? "https://s2.coinmarketcap.com/static/cloud/img/fiat-flags/EUR.svg"
-                : logo
-            }
+            logo={isSwitched ? "/images/EUR.png" : logo}
             name={isSwitched ? "Euro" : name}
             symbol={isSwitched ? "EUR" : symbol}
             value={isSwitched ? target : base}
@@ -37,18 +33,14 @@ export const Converter: React.FC<ConverterProps> = ({ logo, symbol, name }) => {
         </div>
 
         <div
-          className="cursor-pointer absolute left-1/2 tranform -translate-x-1/2 m-0 p-0"
+          className="cursor-pointer absolute left-1/2 tranform -translate-x-1/2 m-0 p-1 border border-slate-200 rounded-full bg-slate-100"
           onClick={() => toggleSwitch()}
         >
-          <img src="/icons/swap-horizontal.svg" width={20} height={20} />
+          <img src="/icons/swap-horizontal.svg" width={15} height={15} />
         </div>
         <div className="w-1/2 flex justify-between items-center p-4 bg-slate-100 rounded-tr-xl rounded-br-xl">
           <Currency
-            logo={
-              !isSwitched
-                ? "https://s2.coinmarketcap.com/static/cloud/img/fiat-flags/EUR.svg"
-                : logo
-            }
+            logo={!isSwitched ? "/images/EUR.png" : logo}
             name={!isSwitched ? "Euro" : name}
             symbol={!isSwitched ? "EUR" : symbol}
             value={!isSwitched ? target : base}
@@ -81,14 +73,14 @@ const Currency: React.FC<CurrencyProps> = ({
   return (
     <>
       <div className="flex items-center">
-        <Image src={logo} width={40} height={40} />
+        <Image src={logo} width={30} height={30} />
         <div className="flex-col text-xs ml-2">
           <div className="text-slate-500">{symbol}</div>
           <div>{name}</div>
         </div>
       </div>
       <input
-        className="font-headings text-lg w-full text-right outline-none border-none"
+        className="font-headings text-lg text-right outline-none border-none"
         type="text"
         style={style}
         value={value}
