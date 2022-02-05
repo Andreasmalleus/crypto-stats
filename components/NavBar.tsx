@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { GlobalStats } from "./GlobalStats";
 
 export const Navbar: React.FC = () => {
+  const router = useRouter();
+
   return (
     <div>
       <GlobalStats />
@@ -27,7 +30,12 @@ export const Navbar: React.FC = () => {
           <button className="btn-primary bg-transparent mr-4 text-black">
             Log in
           </button>
-          <button className="btn-primary mr-4">Sign up</button>
+          <button
+            className="btn-primary mr-4"
+            onClick={() => router.push("/signup")}
+          >
+            Sign up
+          </button>
           <input
             className="btn-primary w-48 placeholder-white"
             placeholder="Search"
