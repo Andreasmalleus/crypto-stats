@@ -8,7 +8,7 @@ const Signup: React.FC<SignupProps> = () => {
     <>
       <div className="flex justify-center items-center h-full">
         <div className="w-1/6">
-          <h1 className="font-headings text-2xl text-center mb-6">Signup</h1>
+          <h1 className="font-headings text-2xl text-center mb-6">Sign up</h1>
           <div className="mb-1 text-sm">Username</div>
           <input
             type="text"

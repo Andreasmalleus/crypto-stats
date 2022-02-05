@@ -7,7 +7,7 @@ const Login: React.FC<LoginProps> = () => {
   return (
     <div className="flex justify-center items-center h-full">
       <div className="w-1/6">
-        <h1 className="font-headings text-2xl text-center mb-6">Login</h1>
+        <h1 className="font-headings text-2xl text-center mb-6">Log in</h1>
         <div className="mb-1 text-sm">Username/Email</div>
         <input
           type="text"
