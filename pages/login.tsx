@@ -43,6 +43,11 @@ const Login: React.FC<LoginProps> = () => {
             Don't have an account?
           </div>
         </Link>
+        <Link href="/">
+          <div className="text-xs mb-2 underline cursor-pointer text-center">
+            Back to home..
+          </div>
+        </Link>
       </div>
     </div>
   );
