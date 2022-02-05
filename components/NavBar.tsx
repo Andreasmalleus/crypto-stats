@@ -27,7 +27,10 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center font-body">
-          <button className="btn-primary bg-transparent mr-4 text-black">
+          <button
+            className="btn-primary bg-transparent mr-4 text-black"
+            onClick={() => router.push("/login")}
+          >
             Log in
           </button>
           <button
