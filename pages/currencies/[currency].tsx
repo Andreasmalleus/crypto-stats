@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Layout } from "../../components/Layout";
-import { metaData, coin } from "../../data";
+import { metaData, coin, wiki } from "../../data";
 import { NameSection } from "../../components/NameSection";
 import { StatsSection } from "../../components/StatsSection";
 import Image from "next/image";
@@ -95,7 +95,12 @@ const CryptoPage: NextPage = () => {
           dilutedValue={quote.EUR.fully_diluted_market_cap}
         />
       </div>
-      <div>About this currency</div>
+      <div className="mt-5">
+        <h1 className="font-headings text-md mt-2 mb-4">What is {name}?</h1>
+        <p className="text-justify leading-10">
+          {wiki.query.pages[28249265].extract}
+        </p>
+      </div>
     </Layout>
   );
 };
