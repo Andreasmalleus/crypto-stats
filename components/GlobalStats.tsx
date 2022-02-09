@@ -1,4 +1,5 @@
 import { general } from "../data";
+import { formatCurrency } from "../utils/formatCurrency";
 
 export const GlobalStats = () => {
   const {
@@ -16,24 +17,32 @@ export const GlobalStats = () => {
       <div className="flex">
         <div className="mr-4 text-xs">
           <span className="mr-1">Cryptos:</span>
-          <span className="text-indigo-600">{total_cryptocurrencies}</span>
+          <span className="font-headings">{total_cryptocurrencies}</span>
         </div>
         <div className="mr-4 text-xs">
           <span className="mr-1">Exchanges:</span>
-          <span className="text-indigo-600">{active_exchanges}</span>
+          <span className="font-headings">{active_exchanges}</span>
         </div>
         <div className="mr-4 text-xs">
           <span className="mr-1">Market Cap:</span>
-          <span className="text-indigo-600">{quote.USD.total_market_cap}</span>
+          <span className="font-headings">
+            ${formatCurrency(quote.USD.total_market_cap)}
+          </span>
         </div>
         <div className="mr-4 text-xs">
           <span className="mr-1">24h Vol:</span>
-          <span className="text-indigo-600">{quote.USD.total_volume_24h}</span>
+          <span className="font-headings">
+            ${formatCurrency(quote.USD.total_volume_24h)}
+          </span>
         </div>
         <div className="mr-4 text-xs">
           <span className="mr-1">Dominance:</span>
-          <span className="text-indigo-600">BTC {btc_dominance} </span>
-          <span className="text-indigo-600">ETH {eth_dominance}</span>
+          <span className="font-headings mr-2">
+            BTC {formatCurrency(btc_dominance)}%
+          </span>
+          <span className="font-headings">
+            ETH {formatCurrency(eth_dominance)}%
+          </span>
         </div>
       </div>
       <div className="flex text-xs">
