@@ -29,7 +29,7 @@ export const Cryptolist: React.FC = () => {
         {data.map((listing, index) => (
           <tr
             key={listing.id}
-            className="border-b-2 border-slate-100 transition duration-250"
+            className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
           >
             <th className="table-entry text-left px-3">
               <Image

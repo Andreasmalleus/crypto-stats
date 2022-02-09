@@ -19,7 +19,7 @@ export const ExchangesList: React.FC = () => {
         {exchanges.map((exchange, index) => (
           <tr
             key={exchange.id}
-            className="border-b-2 border-slate-100 transition duration-250"
+            className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
           >
             <th className="table-entry text-left ">{index + 1}</th>
             <th className="table-entry text-left">
