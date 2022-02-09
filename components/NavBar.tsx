@@ -17,16 +17,19 @@ export const Navbar: React.FC = () => {
             </a>
           </Link>
           <div className="flex items-center">
-            <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
-              Cyptocurrencies
-            </a>
+            <Link href={"/"}>
+              <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
+                Cyptocurrencies
+              </a>
+            </Link>
+
             <Link href={"/exchanges"}>
-              <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
+              <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
                 Exchanges
               </a>
             </Link>
 
-            <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
+            <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
               Favorites
             </a>
           </div>
