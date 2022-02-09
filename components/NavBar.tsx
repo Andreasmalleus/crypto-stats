@@ -42,13 +42,13 @@ export const Navbar: React.FC = () => {
             Log in
           </button>
           <button
-            className="btn-primary mr-4"
+            className="btn-primary mr-4 shadow-lg"
             onClick={() => router.push("/signup")}
           >
             Sign up
           </button>
           <input
-            className="btn-primary w-48 placeholder-white"
+            className="btn-primary w-48 placeholder-white shadow-lg"
             placeholder="Search"
           />
         </div>
