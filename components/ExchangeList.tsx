@@ -21,7 +21,7 @@ export const ExchangesList: React.FC = () => {
             key={exchange.id}
             className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
           >
-            <th className="table-entry text-left ">{index + 1}</th>
+            <th className="table-entry text-left py-5">{index + 1}</th>
             <th className="table-entry text-left">
               <div className="flex items-center cursor-pointer">
                 <Image
