@@ -12,15 +12,20 @@ export const Navbar: React.FC = () => {
       <header className="h-50 flex justify-between top-0 z-50 max-w-screen-xl m-auto mb-8 font-headings">
         <div className="flex items-center">
           <Link href={"/"}>
-            <a className="text-xl mr-8 cursor-pointer">CryptoMarketStats</a>
+            <a className="text-2xl mr-8 cursor-pointer tracking-widest">
+              FAVCRYPTOS
+            </a>
           </Link>
           <div className="flex items-center">
             <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
               Cyptocurrencies
             </a>
-            <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
-              Exchanges
-            </a>
+            <Link href={"/exchanges"}>
+              <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
+                Exchanges
+              </a>
+            </Link>
+
             <a className="text-xs mr-8 transition duration-200 hover:text-indigo-600 cursor-pointer">
               Favorites
             </a>
