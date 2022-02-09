@@ -22,16 +22,16 @@ export const Navbar: React.FC = () => {
                 Cyptocurrencies
               </a>
             </Link>
-
             <Link href={"/exchanges"}>
               <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
                 Exchanges
               </a>
             </Link>
-
-            <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
-              Favorites
-            </a>
+            <Link href={"/favorites"}>
+              <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
+                Favorites
+              </a>
+            </Link>
           </div>
         </div>
         <div className="flex items-center font-body">
