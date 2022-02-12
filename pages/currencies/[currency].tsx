@@ -7,9 +7,6 @@ import { StatsSection } from "../../components/StatsSection";
 import Image from "next/image";
 import Link from "next/link";
 import { Chart } from "../../components/Chart";
-import { formatCurrency } from "../../utils/formatCurrency";
-import { formatPercentageToTwoDecimalPlaces } from "../../utils/formatPercentage";
-import { getColor } from "../../utils/getColor";
 import { Converter } from "../../components/Converter";
 import { SideSection } from "../../components/SideSection";
 
