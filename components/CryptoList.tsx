@@ -68,19 +68,46 @@ export const Cryptolist: React.FC = () => {
               style={{ color: getColor(listing.quote.USD.percent_change_24h) }}
               className="table-entry"
             >
-              {formatPercentageToTwoDecimalPlaces(
-                listing.quote.USD.percent_change_24h
-              )}
-              %
+              <div className="flex items-center justify-end">
+                <Image
+                  src={
+                    listing.quote.USD.percent_change_24h > 0
+                      ? "/icons/caret-up.svg"
+                      : "/icons/caret-down.svg"
+                  }
+                  width={10}
+                  height={10}
+                />
+                <div className="ml-1">
+                  {" "}
+                  {formatPercentageToTwoDecimalPlaces(
+                    listing.quote.USD.percent_change_24h
+                  )}
+                  %
+                </div>
+              </div>
             </th>
             <th
               style={{ color: getColor(listing.quote.USD.percent_change_7d) }}
               className="table-entry"
             >
-              {formatPercentageToTwoDecimalPlaces(
-                listing.quote.USD.percent_change_7d
-              )}
-              %
+              <div className="flex items-center justify-end">
+                <Image
+                  src={
+                    listing.quote.USD.percent_change_7d > 0
+                      ? "/icons/caret-up.svg"
+                      : "/icons/caret-down.svg"
+                  }
+                  width={10}
+                  height={10}
+                />
+                <div className="ml-1">
+                  {formatPercentageToTwoDecimalPlaces(
+                    listing.quote.USD.percent_change_7d
+                  )}
+                  %
+                </div>
+              </div>
             </th>
             <th className="table-entry">
               ${formatCurrency(listing.quote.USD.market_cap)}
