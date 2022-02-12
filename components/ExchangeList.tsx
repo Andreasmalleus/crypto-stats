@@ -1,8 +1,11 @@
 import { exchanges } from "../data";
 import Image from "next/image";
 import { formatCurrency } from "../utils/formatCurrency";
+import { useRouter } from "next/router";
 
 export const ExchangesList: React.FC = () => {
+  const router = useRouter();
+
   return (
     <table className="w-full m-auto border-collapse">
       <thead>
@@ -19,7 +22,8 @@ export const ExchangesList: React.FC = () => {
         {exchanges.map((exchange, index) => (
           <tr
             key={exchange.id}
-            className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
+            className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100 cursor-pointer"
+            onClick={() => router.push(`/exchanges/${exchange.id}`)}
           >
             <th className="table-entry text-left py-5">{index + 1}</th>
             <th className="table-entry text-left">
