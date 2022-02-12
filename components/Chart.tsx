@@ -26,6 +26,7 @@ import { historical } from "../data";
 import { formatCurrency } from "../utils/formatCurrency";
 import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
 import { useEffect, useRef, useState } from "react";
+import { formatDate } from "../utils/formatDate";
 
 interface ChartProps {}
 
@@ -34,11 +35,6 @@ export const Chart: React.FC<ChartProps> = ({}) => {
 
   const [prices, setPrices] = useState<number[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
-
-  const formatDate = (date: number) => {
-    const newDate = new Date(date);
-    return newDate.toISOString().slice(0, 10);
-  };
 
   useEffect(() => {
     const tempPrices: number[] = [];

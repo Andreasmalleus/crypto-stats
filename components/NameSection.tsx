@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatDate } from "../utils/formatDate";
 
 interface NameSectionProps {
   logo: string;
@@ -19,11 +20,6 @@ export const NameSection: React.FC<NameSectionProps> = ({
   updated,
   tags,
 }) => {
-  const formatDate = (date: string) => {
-    const newDate = new Date(date);
-    return newDate.toISOString().slice(0, 10);
-  };
-
   return (
     <section className="flex-col w-4/12">
       {/* image and name of the currency */}
