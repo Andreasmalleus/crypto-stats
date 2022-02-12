@@ -1,3 +1,3 @@
 export const formatPercentageToTwoDecimalPlaces = (val: number) => {
-    return val.toFixed(2);
+    return Math.abs(val).toFixed(2);
   };
