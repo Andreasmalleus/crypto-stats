@@ -40,10 +40,6 @@ const CryptoPage: NextPage = () => {
           </a>
         </Link>
         <Image src="/icons/arrow-right.svg" width={10} height={10} />
-        <Link href="/">
-          <a className="mr-2 ml-2 cursor-pointer hover:underline">Coins</a>
-        </Link>
-        <Image src="/icons/arrow-right.svg" width={10} height={10} />
         <a className="ml-2 text-black">{name}</a>
       </div>
       <div className="flex mb-10">

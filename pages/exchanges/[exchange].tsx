@@ -18,7 +18,7 @@ const ExchangePage: NextPage = () => {
   return (
     <Layout>
       <div className="flex items-center text-xs text-slate-600 mb-10 p-1">
-        <Link href="/">
+        <Link href="/exchanges">
           <a className="mr-2 cursor-pointer hover:underline">Exchanges</a>
         </Link>
         <Image src="/icons/arrow-right.svg" width={10} height={10} />
