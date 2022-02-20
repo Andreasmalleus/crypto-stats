@@ -1,0 +1,22 @@
+datasource db{
+  provider = "postgresql"
+	url = "postgresql://andreasmalleus@localhost:5432/favcryptos"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output = "../prisma/generated/type-graphql"
+}
+
+model User{
+	id Int @id @default(autoincrement())
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+	username String 
+	email String @unique
+	password String
+}

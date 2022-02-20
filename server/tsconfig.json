@@ -3,12 +3,9 @@
     "target": "es2018",
     "module": "commonjs",
     "lib": ["es2018", "esnext.asynciterable"],
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
+    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "esModuleInterop": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
