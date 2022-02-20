@@ -94,4 +94,45 @@ export class UserResolver{
             user
         };
     }
+
+    @Mutation(() => UserResponse)
+    async login(
+        @Arg("usernameOrEmail") usernameOrEmail: string,
+        @Arg("password") password: string,
+        @Ctx() {prisma} : {prisma: PrismaClient}
+    ){
+        let isEmail = false;
+
+        if(usernameOrEmail.includes("@")){
+            isEmail = true;
+        }
+
+        const user : User = await prisma.user.findUnique({
+            where : {
+                [isEmail ? "email" : "username"] : usernameOrEmail,
+            }
+        })
+
+        if(!user){
+            return {
+                error: {
+                    field: "usernameOrEmail",
+                    message: "User not found"
+                }
+            }
+        }
+
+        const valid = await argon.verify(user.password, password);
+
+        if(!valid){
+            return {
+                error: {
+                    field: "password",
+                    message: "Invalid password"
+                }
+            };
+        }
+
+        return {user};
+    }
 }
