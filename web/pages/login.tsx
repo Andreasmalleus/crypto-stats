@@ -16,10 +16,15 @@ const Login: React.FC<LoginProps> = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (usernameOrEmail === "" || password === "") {
+      setError({ field: "username", message: "Please fill in all fields" });
+      return;
+    }
     const response = await login({
       variables: { usernameOrEmail: usernameOrEmail, password: password },
     });
     setError(response.data.login.error);
+    return;
   };
 
   return (

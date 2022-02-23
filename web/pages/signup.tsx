@@ -18,6 +18,15 @@ const Signup: React.FC<SignupProps> = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (
+      username === "" ||
+      email === "" ||
+      password === "" ||
+      passwordConfirm === ""
+    ) {
+      setError({ field: "username", message: "Please fill in all fields" });
+      return;
+    }
     if (password !== passwordConfirm) {
       setError({ field: "password", message: "Passwords do not match" });
       return;
@@ -32,6 +41,7 @@ const Signup: React.FC<SignupProps> = () => {
       },
     });
     setError(response.data.signup.error);
+    return;
   };
 
   return (
