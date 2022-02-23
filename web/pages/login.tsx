@@ -1,16 +1,25 @@
+import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { LOGIN_MUTATION } from "../graphql/mutations";
+import { FieldError } from "../types";
+import { FormInput } from "../components/FormInput";
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [login] = useMutation(LOGIN_MUTATION);
+  const [error, setError] = useState<FieldError>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ usernameOrEmail, password });
+    const response = await login({
+      variables: { usernameOrEmail: usernameOrEmail, password: password },
+    });
+    setError(response.data.login.error);
   };
 
   return (
@@ -21,18 +30,18 @@ const Login: React.FC<LoginProps> = () => {
       <div className="w-1/6">
         <h1 className="font-headings text-2xl text-center mb-6">Log in</h1>
         <div className="mb-1 text-sm">Username/Email</div>
-        <input
-          type="text"
-          className="border border-slate-200 rounded-md text-xs p-1 w-full mb-2 shadow-sm"
-          onChange={(e) => setUsernameOrEmail(e.target.value)}
+        <FormInput
           value={usernameOrEmail}
+          field="usernameOrEmail"
+          setValue={setUsernameOrEmail}
+          error={error}
         />
         <div className="mb-1 text-sm">Password</div>
-        <input
-          type="password"
-          className="border border-slate-200 rounded-md text-xs p-1 w-full shadow-sm"
-          onChange={(e) => setPassword(e.target.value)}
+        <FormInput
           value={password}
+          field="password"
+          setValue={setPassword}
+          error={error}
         />
         <div className="text-xs mb-2 underline cursor-pointer">
           Forgot password?

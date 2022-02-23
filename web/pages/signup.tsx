@@ -1,7 +1,11 @@
+import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-
+import { SIGNUP_MUTATION } from "../graphql/mutations";
+import { FieldError } from "../types";
+import { FormError } from "../components/FormError";
+import { FormInput } from "../components/FormInput";
 interface SignupProps {}
 
 const Signup: React.FC<SignupProps> = () => {
@@ -9,11 +13,24 @@ const Signup: React.FC<SignupProps> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [signup] = useMutation(SIGNUP_MUTATION);
+  const [error, setError] = useState<FieldError>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ username, email, password, passwordConfirm });
+
+    const response = await signup({
+      variables: {
+        options: {
+          username: username,
+          email: email,
+          password: password,
+        },
+      },
+    });
+    setError(response.data.signup.error);
   };
+
   return (
     <form
       className="flex justify-center items-center h-full"
@@ -22,32 +39,34 @@ const Signup: React.FC<SignupProps> = () => {
       <div className="w-1/6">
         <h1 className="font-headings text-2xl text-center mb-6">Sign up</h1>
         <div className="mb-1 text-sm">Username</div>
-        <input
-          type="text"
-          className="border border-slate-200 rounded-md text-xs p-1 w-full mb-2 shadow-sm"
-          onChange={(e) => setUsername(e.target.value)}
+        <FormInput
           value={username}
+          field="username"
+          setValue={setUsername}
+          error={error}
         />
         <div className="mb-1 text-sm">Email</div>
-        <input
-          type="text"
-          className="border border-slate-200 rounded-md text-xs p-1 w-full mb-2 shadow-sm"
-          onChange={(e) => setEmail(e.target.value)}
+        <FormInput
           value={email}
+          field="email"
+          setValue={setEmail}
+          error={error}
         />
         <div className="mb-1 text-sm">Password</div>
-        <input
-          type="password"
-          className="border border-slate-200 rounded-md text-xs p-1 w-full mb-2 shadow-sm"
-          onChange={(e) => setPassword(e.target.value)}
+        <FormInput
           value={password}
+          field="password"
+          setValue={setPassword}
+          error={error}
+          type="password"
         />
         <div className="mb-1 text-sm">Confirm Password</div>
-        <input
-          type="password"
-          className="border border-slate-200 rounded-md text-xs p-1 w-full mb-2 shadow-sm"
-          onChange={(e) => setPasswordConfirm(e.target.value)}
+        <FormInput
           value={passwordConfirm}
+          field="passwordConfirm"
+          setValue={setPasswordConfirm}
+          error={error}
+          type="password"
         />
         <button className="btn-primary mt-3 mb-5 shadow-md">Sign up</button>
         <div className="flex items-center mb-4">
