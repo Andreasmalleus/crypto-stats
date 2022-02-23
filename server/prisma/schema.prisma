@@ -18,5 +18,6 @@ model User{
 	updatedAt DateTime @updatedAt
 	username String @unique
 	email String @unique
+	/// @TypeGraphQL.omit(output: true)
 	password String
 }
