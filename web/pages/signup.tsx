@@ -18,7 +18,10 @@ const Signup: React.FC<SignupProps> = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (password !== passwordConfirm) {
+      setError({ field: "password", message: "Passwords do not match" });
+      return;
+    }
     const response = await signup({
       variables: {
         options: {
