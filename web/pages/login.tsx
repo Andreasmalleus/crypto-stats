@@ -42,6 +42,7 @@ const Login: React.FC<LoginProps> = () => {
           field="password"
           setValue={setPassword}
           error={error}
+          type="password"
         />
         <div className="text-xs mb-2 underline cursor-pointer">
           Forgot password?
