@@ -4,6 +4,7 @@ import { User } from "../prisma/generated/type-graphql"
 import { SignupInput } from "../utils/SignupInput";
 import { validateSignup } from "../utils/validateSignup";
 import argon from "argon2";
+import { myContext } from "../types";
 
 
 @ObjectType()
@@ -46,6 +47,25 @@ export class UserResolver{
         }
 
         return user;
+    }
+
+    @Query(() => User || null, {nullable : true})
+    async me(
+        @Ctx() {req, prisma} : myContext
+    ){
+        const {userId} = req.session;
+        if(!userId){
+            return null;
+        }
+        const user = await prisma.user.findUnique({
+            where : {
+                id: userId
+            }
+        })
+        if(!user){
+            return null
+        }
+        return user
     }
 
     @Mutation(() => UserResponse)
@@ -99,7 +119,7 @@ export class UserResolver{
     async login(
         @Arg("usernameOrEmail") usernameOrEmail: string,
         @Arg("password") password: string,
-        @Ctx() {prisma} : {prisma: PrismaClient}
+        @Ctx() {prisma, req} : myContext
     ){
         let isEmail = false;
 
@@ -132,6 +152,8 @@ export class UserResolver{
                 }
             };
         }
+
+        req.session.userId = user.id;
 
         return {user};
     }
