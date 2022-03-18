@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { LOGIN_MUTATION } from "../graphql/mutations";
 import { FieldError } from "../types";
 import { FormInput } from "../components/FormInput";
+import { useRouter } from "next/router";
 
 interface LoginProps {}
 
@@ -13,17 +14,25 @@ const Login: React.FC<LoginProps> = () => {
   const [password, setPassword] = useState("");
   const [login] = useMutation(LOGIN_MUTATION);
   const [error, setError] = useState<FieldError>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (usernameOrEmail === "" || password === "") {
-      setError({ field: "username", message: "Please fill in all fields" });
+      setError({
+        field: "usernameOrEmail",
+        message: "Please fill in all fields",
+      });
       return;
     }
     const response = await login({
       variables: { usernameOrEmail: usernameOrEmail, password: password },
     });
-    setError(response.data.login.error);
+    if (response.data.login?.error) {
+      setError(response.data.login.error);
+      return;
+    }
+    router.push("/");
     return;
   };
 

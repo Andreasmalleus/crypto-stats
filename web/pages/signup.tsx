@@ -4,8 +4,9 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { SIGNUP_MUTATION } from "../graphql/mutations";
 import { FieldError } from "../types";
-import { FormError } from "../components/FormError";
 import { FormInput } from "../components/FormInput";
+import Router, { useRouter } from "next/router";
+
 interface SignupProps {}
 
 const Signup: React.FC<SignupProps> = () => {
@@ -15,6 +16,7 @@ const Signup: React.FC<SignupProps> = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [signup] = useMutation(SIGNUP_MUTATION);
   const [error, setError] = useState<FieldError>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +42,11 @@ const Signup: React.FC<SignupProps> = () => {
         },
       },
     });
-    setError(response.data.signup.error);
+    if (response.data.login?.error) {
+      setError(response.data.login.error);
+      return;
+    }
+    router.push("/login");
     return;
   };
 
