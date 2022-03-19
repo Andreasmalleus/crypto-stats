@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { GlobalStats } from "./GlobalStats";
 import { useQuery } from "@apollo/client";
 import { ME_QUERY } from "../graphql/queries";
 import Image from "next/image";
+import { Modal } from "./Modal";
 
 export const Navbar: React.FC = () => {
   const router = useRouter();
 
   const { data, loading, error } = useQuery(ME_QUERY);
+  const [isShown, setIsShown] = useState(false);
 
   let isMe = data?.me ? true : false;
 
@@ -43,13 +45,22 @@ export const Navbar: React.FC = () => {
             ) : null}
           </div>
         </div>
-        <div className="flex items-center font-body">
+        <div className="flex items-center font-body relative">
           {loading ? <div className="text-sm">Loading...</div> : null}
           {error ? <div className="text-sm">Error...</div> : null}
 
           {isMe ? (
-            <div className="text-xs mr-2">
+            <div
+              className="text-xs mr-2"
+              onMouseOver={() => setIsShown(true)}
+              onMouseLeave={() => setIsShown(false)}
+            >
               <Image src="/icons/user.svg" width={30} height={30} />
+              <Modal
+                username={data?.me.username}
+                isShown={isShown}
+                setIsShown={setIsShown}
+              />
             </div>
           ) : (
             <>
@@ -67,7 +78,6 @@ export const Navbar: React.FC = () => {
               </button>
             </>
           )}
-
           <input
             className="btn-primary w-48 placeholder-white shadow-lg"
             placeholder="Search"
