@@ -1,4 +1,3 @@
-import { listings } from "../data";
 import Image from "next/image";
 import Link from "next/link";
 import { getColor } from "../utils/getColor";
@@ -6,12 +5,22 @@ import { getFilters } from "../utils/getFilters";
 import { formatCurrency } from "../utils/formatCurrency";
 import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
 import useSwr from "swr";
-import { listingsHandler } from "../fetchers";
-import { Listing } from "../types";
-import { Table } from "./Table/";
+import { Table } from "./Table/index";
 
 export const Cryptolist: React.FC = () => {
-  const { data } = listings;
+  const { data, error } = useSwr("listings", async () => {
+    const response = await fetch("api/listings");
+    const data = await response.json();
+    return data;
+  });
+
+  if (error) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        Something went wrong...
+      </div>
+    );
+  }
 
   return (
     <Table
@@ -28,7 +37,7 @@ export const Cryptolist: React.FC = () => {
         "Last 7 days",
       ]}
     >
-      {data.map((listing, index) => (
+      {data?.data.map((listing: any, index: any) => (
         <tr
           key={listing.id}
           className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
