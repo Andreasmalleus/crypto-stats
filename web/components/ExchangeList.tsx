@@ -3,9 +3,28 @@ import Image from "next/image";
 import { formatCurrency } from "../utils/formatCurrency";
 import { useRouter } from "next/router";
 import { Table } from "./Table/";
+import useSwr from "swr";
 
 export const ExchangesList: React.FC = () => {
   const router = useRouter();
+
+  const { data, error } = useSwr("exchanges", async () => {
+    const response = await fetch("api/exchanges");
+    const data = await response.json();
+    return data;
+  });
+
+  if (error) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        Something went wrong...
+      </div>
+    );
+  }
+
+  if (!data) {
+    return <div>Loading</div>;
+  }
 
   return (
     <Table
@@ -18,7 +37,7 @@ export const ExchangesList: React.FC = () => {
         "Year Established",
       ]}
     >
-      {exchanges.map((exchange, index) => (
+      {data.map((exchange: any, index: any) => (
         <tr
           key={exchange.id}
           className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100 cursor-pointer"
