@@ -4,15 +4,12 @@ import { formatCurrency } from "../utils/formatCurrency";
 import { useRouter } from "next/router";
 import { Table } from "./Table/";
 import useSwr from "swr";
+import { fetchRoute } from "../utils/fetchRoute";
 
 export const ExchangesList: React.FC = () => {
   const router = useRouter();
 
-  const { data, error } = useSwr("exchanges", async () => {
-    const response = await fetch("api/exchanges");
-    const data = await response.json();
-    return data;
-  });
+  const { data, error } = useSwr("api/exchanges", fetchRoute);
 
   if (error) {
     return (

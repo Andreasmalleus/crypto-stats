@@ -6,13 +6,10 @@ import { formatCurrency } from "../utils/formatCurrency";
 import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
 import useSwr from "swr";
 import { Table } from "./Table/index";
+import { fetchRoute } from "../utils/fetchRoute";
 
 export const Cryptolist: React.FC = () => {
-  const { data, error } = useSwr("listings", async () => {
-    const response = await fetch("api/listings");
-    const data = await response.json();
-    return data;
-  });
+  const { data, error } = useSwr("api/listings", fetchRoute);
 
   if (error) {
     return (
