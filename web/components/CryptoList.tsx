@@ -7,14 +7,23 @@ import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
 import useSwr from "swr";
 import { Table } from "./Table/index";
 import { fetchRoute } from "../utils/fetchRoute";
+import { BeatLoader, CircleLoader, ClipLoader } from "react-spinners";
 
 export const Cryptolist: React.FC = () => {
-  const { data, error } = useSwr("api/listings", fetchRoute);
+  const { data, error, isValidating } = useSwr("api/listings", fetchRoute);
 
   if (error) {
     return (
       <div className="h-full w-full flex justify-center items-center">
         Something went wrong...
+      </div>
+    );
+  }
+
+  if (!data && isValidating) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <ClipLoader size={40} />
       </div>
     );
   }

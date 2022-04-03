@@ -1,15 +1,16 @@
-import { exchanges } from "../data";
 import Image from "next/image";
 import { formatCurrency } from "../utils/formatCurrency";
 import { useRouter } from "next/router";
 import { Table } from "./Table/";
 import useSwr from "swr";
 import { fetchRoute } from "../utils/fetchRoute";
+import React from "react";
+import { ClipLoader } from "react-spinners";
 
 export const ExchangesList: React.FC = () => {
   const router = useRouter();
 
-  const { data, error } = useSwr("api/exchanges", fetchRoute);
+  const { data, error, isValidating } = useSwr("api/exchanges", fetchRoute);
 
   if (error) {
     return (
@@ -19,8 +20,12 @@ export const ExchangesList: React.FC = () => {
     );
   }
 
-  if (!data) {
-    return <div>Loading</div>;
+  if (!data && isValidating) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <ClipLoader size={40} />
+      </div>
+    );
   }
 
   return (
