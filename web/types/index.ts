@@ -30,3 +30,14 @@ export type ListingQuote = {
     market_cap: number;
   }
 }
+
+
+export type Exchange = {
+  id: number;
+  image: string;
+  name: string;
+  trust_score: number;
+  trade_volume_24h_btc: number;
+  country : string;
+  year_established : string;
+}

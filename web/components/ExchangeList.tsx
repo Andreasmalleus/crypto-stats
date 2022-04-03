@@ -6,6 +6,7 @@ import useSwr from "swr";
 import { fetchRoute } from "../utils/fetchRoute";
 import React from "react";
 import { ClipLoader } from "react-spinners";
+import { Exchange } from "../types";
 
 export const ExchangesList: React.FC = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ export const ExchangesList: React.FC = () => {
         "Year Established",
       ]}
     >
-      {data.map((exchange: any, index: any) => (
+      {data.map((exchange: Exchange, index: number) => (
         <tr
           key={exchange.id}
           className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100 cursor-pointer"
