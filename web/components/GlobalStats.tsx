@@ -14,7 +14,7 @@ export const GlobalStats = () => {
   } = general;
 
   return (
-    <div className="max-w-screen-xl m-auto flex justify-between my-4 items-center">
+    <div className="max-w-screen-xl m-auto flex justify-between h-10 items-center">
       <div className="flex">
         <div className="mr-4 text-xs">
           <span className="mr-1">Cryptos:</span>
