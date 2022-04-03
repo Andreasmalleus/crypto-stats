@@ -16,16 +16,16 @@ export const Navbar: React.FC = () => {
   let isMe = data?.me ? true : false;
 
   return (
-    <div>
+    <header className="w-full max-w-screen-xl">
       <GlobalStats />
       <header className="h-50 flex justify-between top-0 z-50 max-w-screen-xl m-auto mb-8 font-headings">
-        <div className="flex items-center">
+        <nav className="flex items-center">
           <Link href={"/"}>
             <a className="text-2xl mr-8 cursor-pointer tracking-widest">
               FAVCRYPTOS
             </a>
           </Link>
-          <div className="flex items-center">
+          <nav className="flex items-center">
             <Link href={"/"}>
               <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
                 Cyptocurrencies
@@ -43,8 +43,8 @@ export const Navbar: React.FC = () => {
                 </a>
               </Link>
             ) : null}
-          </div>
-        </div>
+          </nav>
+        </nav>
         <div className="flex items-center font-body relative">
           {loading ? <div className="text-sm">Loading...</div> : null}
           {error ? <div className="text-sm">Error...</div> : null}
@@ -84,6 +84,6 @@ export const Navbar: React.FC = () => {
           />
         </div>
       </header>
-    </div>
+    </header>
   );
 };
