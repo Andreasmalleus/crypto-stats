@@ -1,17 +1,34 @@
-import { general } from "../data";
 import { formatCurrency } from "../utils/formatCurrency";
 import Image from "next/image";
+import useSwr from "swr";
+import { fetchRoute } from "../utils/fetchRoute";
+import { BeatLoader } from "react-spinners";
 
 export const GlobalStats = () => {
+  const { data, error, isValidating } = useSwr(
+    "api/metrics/latest",
+    fetchRoute
+  );
+
+  if (error) {
+    return null;
+  }
+
+  if (!data && isValidating) {
+    return (
+      <div className="w-full text-center h-10">
+        <BeatLoader size={5} />
+      </div>
+    );
+  }
+
   const {
-    data: {
-      total_cryptocurrencies,
-      active_exchanges,
-      quote,
-      btc_dominance,
-      eth_dominance,
-    },
-  } = general;
+    total_cryptocurrencies,
+    active_exchanges,
+    quote,
+    btc_dominance,
+    eth_dominance,
+  } = data.data;
 
   return (
     <div className="max-w-screen-xl m-auto flex justify-between h-10 items-center">
