@@ -6,7 +6,7 @@ import { BeatLoader } from "react-spinners";
 
 export const GlobalStats = () => {
   const { data, error, isValidating } = useSwr(
-    "api/metrics/latest",
+    "/api/metrics/latest",
     fetchRoute
   );
 
