@@ -1,7 +1,6 @@
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 import { Layout } from "../../components/Layout";
-import { metaData, coin, wiki } from "../../data";
+import { wiki } from "../../data";
 import { NameSection } from "../../components/NameSection";
 import { StatsSection } from "../../components/StatsSection";
 import Image from "next/image";
@@ -9,27 +8,48 @@ import Link from "next/link";
 import { Chart } from "../../components/Chart";
 import { Converter } from "../../components/Converter";
 import { SideSection } from "../../components/SideSection";
+import { Router, withRouter } from "next/router";
+import useSWR from "swr";
+import { fetchRoute } from "../../utils/fetchRoute";
+import { ClipLoader } from "react-spinners";
 
-const CryptoPage: NextPage = () => {
-  const router = useRouter();
-  const { currency } = router.query;
+const CryptoPage: NextPage<any> = ({ router }) => {
+  const { data, error, isValidating } = useSWR(
+    `/api/quotes/latest?slug=${router.query.currency}`,
+    fetchRoute
+  );
+
+  if (error) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        Something went wrong...
+      </div>
+    );
+  }
+
+  if (!data || isValidating) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <ClipLoader size={40} />
+      </div>
+    );
+  }
+
+  const currencyId: string = Object.keys(data.data)[0];
   const {
-    data: {
-      1: { name, symbol, description, logo, category, tags },
-    },
-  } = metaData;
-  const {
-    data: {
-      BTC: {
-        max_supply,
-        circulating_supply,
-        total_supply,
-        quote,
-        cmc_rank,
-        last_updated,
-      },
-    },
-  } = coin;
+    name,
+    symbol,
+    tags,
+    max_supply,
+    circulating_supply,
+    total_supply,
+    quote,
+    cmc_rank,
+    last_updated,
+  } = data.data[currencyId];
+
+  const logo = `https://s2.coinmarketcap.com/static/img/coins/64x64/${currencyId}.png`;
+  const category = "coin";
 
   return (
     <Layout>
@@ -98,4 +118,4 @@ const CryptoPage: NextPage = () => {
   );
 };
 
-export default CryptoPage;
+export default withRouter(CryptoPage);
