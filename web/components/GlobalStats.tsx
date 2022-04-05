@@ -14,7 +14,7 @@ export const GlobalStats = () => {
     return null;
   }
 
-  if (!data && isValidating) {
+  if (!data || isValidating) {
     return (
       <div className="w-full text-center h-10">
         <BeatLoader size={5} />

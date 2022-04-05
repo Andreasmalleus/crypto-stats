@@ -21,7 +21,7 @@ export const Cryptolist: React.FC = () => {
     );
   }
 
-  if (!data && isValidating) {
+  if (!data || isValidating) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <ClipLoader size={40} />
