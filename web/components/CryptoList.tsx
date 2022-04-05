@@ -60,7 +60,7 @@ export const Cryptolist: React.FC = () => {
           </th>
           <th className="table-entry text-left">{index + 1}</th>
           <th className="table-entry text-left">
-            <Link href={`/currencies/${listing.name.toLowerCase()}`}>
+            <Link href={`/currencies/${listing.slug}`}>
               <div className="flex justify-center items-center cursor-pointer">
                 <Image
                   src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
@@ -77,19 +77,19 @@ export const Cryptolist: React.FC = () => {
               </div>
             </Link>
           </th>
-          <Link href={`/currencies/${listing.name.toLowerCase()}`}>
+          <Link href={`/currencies/${listing.slug}`}>
             <th style={{ cursor: "pointer" }} className="table-entry">
-              ${formatCurrency(listing.quote.USD.price)}
+              ${formatCurrency(listing.quote.EUR.price)}
             </th>
           </Link>
           <th
-            style={{ color: getColor(listing.quote.USD.percent_change_24h) }}
+            style={{ color: getColor(listing.quote.EUR.percent_change_24h) }}
             className="table-entry"
           >
             <div className="flex items-center justify-end">
               <Image
                 src={
-                  listing.quote.USD.percent_change_24h > 0
+                  listing.quote.EUR.percent_change_24h > 0
                     ? "/icons/caret-up.svg"
                     : "/icons/caret-down.svg"
                 }
@@ -99,20 +99,20 @@ export const Cryptolist: React.FC = () => {
               <div className="ml-1">
                 {" "}
                 {formatPercentageToTwoDecimalPlaces(
-                  listing.quote.USD.percent_change_24h
+                  listing.quote.EUR.percent_change_24h
                 )}
                 %
               </div>
             </div>
           </th>
           <th
-            style={{ color: getColor(listing.quote.USD.percent_change_7d) }}
+            style={{ color: getColor(listing.quote.EUR.percent_change_7d) }}
             className="table-entry"
           >
             <div className="flex items-center justify-end">
               <Image
                 src={
-                  listing.quote.USD.percent_change_7d > 0
+                  listing.quote.EUR.percent_change_7d > 0
                     ? "/icons/caret-up.svg"
                     : "/icons/caret-down.svg"
                 }
@@ -121,17 +121,17 @@ export const Cryptolist: React.FC = () => {
               />
               <div className="ml-1">
                 {formatPercentageToTwoDecimalPlaces(
-                  listing.quote.USD.percent_change_7d
+                  listing.quote.EUR.percent_change_7d
                 )}
                 %
               </div>
             </div>
           </th>
           <th className="table-entry">
-            ${formatCurrency(listing.quote.USD.market_cap)}
+            ${formatCurrency(listing.quote.EUR.market_cap)}
           </th>
           <th className="table-entry">
-            ${formatCurrency(listing.quote.USD.volume_24h)}
+            ${formatCurrency(listing.quote.EUR.volume_24h)}
           </th>
           <th className="table-entry">
             <span className="mr-1">
@@ -145,7 +145,7 @@ export const Cryptolist: React.FC = () => {
                 src={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${listing.id}.svg`}
                 alt=""
                 style={{
-                  filter: getFilters(listing.quote.USD.percent_change_7d),
+                  filter: getFilters(listing.quote.EUR.percent_change_7d),
                   cursor: "pointer",
                   display: "inline",
                 }}
