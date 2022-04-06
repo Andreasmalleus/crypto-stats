@@ -25,29 +25,59 @@ import { Line } from "react-chartjs-2";
 import { historical } from "../data";
 import { formatCurrency } from "../utils/formatCurrency";
 import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { formatDate } from "../utils/formatDate";
+import useSWR from "swr";
+import { fetchRoute } from "../utils/fetchRoute";
+import { ClipLoader } from "react-spinners";
+import { formatSlug } from "../utils/formatSlug";
 
-interface ChartProps {}
+interface ChartProps {
+  slug: string;
+}
 
-export const Chart: React.FC<ChartProps> = ({}) => {
+export const Chart: React.FC<ChartProps> = ({ slug }) => {
   const chartRef = useRef();
 
-  const [prices, setPrices] = useState<number[]>([]);
-  const [labels, setLabels] = useState<string[]>([]);
+  const { data, error, isValidating } = useSWR(
+    `/api/metrics/historical?slug=${formatSlug(
+      slug
+    )}&days=${365}&currency=${"eur"}`,
+    fetchRoute
+  );
 
-  useEffect(() => {
-    const tempPrices: number[] = [];
-    const tempLabels: string[] = [];
+  const mapData = (data: any) => {
+    const prices: number[] = [];
+    const labels: string[] = [];
 
-    historical.prices.map((entries) => {
-      tempPrices.push(entries[1]);
-      tempLabels.push(formatDate(entries[0]));
+    if (!data) {
+      return { prices, labels };
+    }
+
+    data.prices.map((entries: number[]) => {
+      prices.push(entries[1]);
+      labels.push(formatDate(entries[0]));
     });
+    return { prices, labels };
+  };
 
-    setPrices([...tempPrices]);
-    setLabels([...tempLabels]);
-  }, []);
+  const { prices, labels } = useMemo(() => mapData(data), [data]);
+
+  if (error) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        Something went wrong...
+      </div>
+    );
+  }
+
+  if (!data || isValidating) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <ClipLoader size={40} />
+      </div>
+    );
+  }
 
   return (
     <div>
