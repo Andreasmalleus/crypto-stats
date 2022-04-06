@@ -14,8 +14,9 @@ import { fetchRoute } from "../../utils/fetchRoute";
 import { ClipLoader } from "react-spinners";
 
 const CryptoPage: NextPage<any> = ({ router }) => {
+  const { currency } = router.query;
   const { data, error, isValidating } = useSWR(
-    `/api/quotes/latest?slug=${router.query.currency}`,
+    `/api/quotes/latest?slug=${currency}`,
     fetchRoute
   );
 
@@ -92,7 +93,7 @@ const CryptoPage: NextPage<any> = ({ router }) => {
       </div>
       <div className="flex">
         <div className="flex-col w-8/12 items-center">
-          <Chart />
+          <Chart slug={currency} />
           <Converter logo={logo} symbol={symbol} name={name} />
         </div>
         <SideSection
