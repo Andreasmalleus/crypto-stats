@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async (_ : NextApiRequest, res : NextApiResponse ) => {
   
   const response = await fetch(
-    "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest",
+    "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?convert=EUR",
     {
       method: "GET",
       headers: {
