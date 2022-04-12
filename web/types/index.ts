@@ -50,3 +50,24 @@ export type Exchange = {
   country : string;
   year_established : string;
 }
+
+export type ExchangeTicker = {
+  base: string;
+  bid_ask_spread_percentage: number;
+  coin_id: string;
+  converted_last: object;
+  converted_volume: object;
+  is_anomaly: boolean;
+  is_stale: boolean;
+  last: number;
+  last_fetch_at: string;
+  last_traded_at: string;
+  market: object;
+  target: string;
+  target_coin_id: string;
+  timestamp: string;
+  token_info_url: string | null;
+  trade_url: string;
+  trust_score: string;
+  volume: number;
+}

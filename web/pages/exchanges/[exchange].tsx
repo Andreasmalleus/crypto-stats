@@ -1,19 +1,51 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Layout } from "../../components/Layout";
-import { exchangeMetaInfo, wiki } from "../../data";
+import { wiki } from "../../data";
 import Link from "next/link";
 import Image from "next/image";
 import { formatCurrency } from "../../utils/formatCurrency";
+import useSWR from "swr";
+import { fetchRoute } from "../../utils/fetchRoute";
+import { ClipLoader } from "react-spinners";
+import { formatDate } from "../../utils/formatDate";
+import { ExchangeTicker } from "../../types";
 
 const ExchangePage: NextPage = () => {
   const router = useRouter();
   const { exchange } = router.query;
 
-  const formatDate = (date: string) => {
-    const newDate = new Date(date);
-    return newDate.toISOString().slice(0, 10);
-  };
+  const { data, error, isValidating } = useSWR(
+    "/api/metrics/exchange?slug=" + exchange,
+    fetchRoute
+  );
+
+  if (error) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        Something went wrong...
+      </div>
+    );
+  }
+
+  if (!data || isValidating) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <ClipLoader size={40} />
+      </div>
+    );
+  }
+
+  const {
+    name,
+    url,
+    facebook_url,
+    twitter_handle,
+    reddit_url,
+    trade_volume_24h_btc,
+    image,
+    tickers,
+  } = data;
 
   return (
     <Layout>
@@ -22,55 +54,45 @@ const ExchangePage: NextPage = () => {
           <a className="mr-2 cursor-pointer hover:underline">Exchanges</a>
         </Link>
         <Image src="/icons/arrow-right.svg" width={10} height={10} />
-        <a className="ml-2 text-black">{exchangeMetaInfo.name}</a>
+        <a className="ml-2 text-black">{name}</a>
       </div>
       <div className="flex">
         <section className="w-4/12">
           <div className="flex items-center mb-8">
             <Image
-              src={exchangeMetaInfo.image}
+              src={image}
               width={30}
               height={30}
               className="rounded-full"
             />
-            <div className="text-3xl ml-3 font-headings">
-              {exchangeMetaInfo.name}
-            </div>
+            <div className="text-3xl ml-3 font-headings">{name}</div>
           </div>
           <div className="flex flex-col text-blue-500">
             <div className="flex">
               <Image src="/icons/link.svg" width={20} height={20} />
-              <a href={exchangeMetaInfo.url} target="_blank" className="ml-2">
-                {exchangeMetaInfo.url}
+              <a href={url} target="_blank" className="ml-2">
+                {url}
               </a>
             </div>
             <div className="flex">
               <Image src="/icons/facebook.svg" width={20} height={20} />
-              <a
-                href={exchangeMetaInfo.facebook_url}
-                target="_blank"
-                className="ml-2"
-              >
+              <a href={facebook_url} target="_blank" className="ml-2">
                 facebook
               </a>
             </div>
             <div className="flex">
               <Image src="/icons/twitter.svg" width={20} height={20} />
               <a
-                href={`https://twitter.com/${exchangeMetaInfo.twitter_handle}`}
+                href={`https://twitter.com/${twitter_handle}`}
                 target="_blank"
                 className="ml-2"
               >
-                @{exchangeMetaInfo.name}
+                @{name}
               </a>
             </div>
             <div className="flex">
               <Image src="/icons/reddit.svg" width={20} height={20} />
-              <a
-                href={exchangeMetaInfo.reddit_url}
-                target="_blank"
-                className="ml-2"
-              >
+              <a href={reddit_url} target="_blank" className="ml-2">
                 reddit
               </a>
             </div>
@@ -79,7 +101,7 @@ const ExchangePage: NextPage = () => {
         <section className="w-8/12">
           <div className="text-xs mb-2">Volume (24h)</div>
           <div className="text-4xl font-headings">
-            {formatCurrency(exchangeMetaInfo.trade_volume_24h_btc)} BTC
+            {formatCurrency(trade_volume_24h_btc)} BTC
           </div>
         </section>
       </div>
@@ -97,27 +119,25 @@ const ExchangePage: NextPage = () => {
             </tr>
           </thead>
           <tbody className="border-b-2 border-slate-100">
-            {exchangeMetaInfo.tickers.map((exchange, index) => (
+            {tickers.map((ticker: ExchangeTicker, index: number) => (
               <tr
                 key={index}
                 className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100 cursor-pointer"
-                onClick={() => router.push(`/currencies/${exchange.coin_id}`)}
+                onClick={() => router.push(`/currencies/${ticker.coin_id}`)}
               >
                 <th className="table-entry text-left py-5">{index + 1}</th>
                 <th className="table-entry text-left font-headings">
-                  {exchange.base}
+                  {ticker.base}
                 </th>
                 <th className="table-entry text-blue-500">
-                  {exchange.base}/{exchange.target}
+                  {ticker.base}/{ticker.target}
+                </th>
+                <th className="table-entry">{formatCurrency(ticker.volume)}</th>
+                <th className="table-entry">
+                  {ticker.bid_ask_spread_percentage}%
                 </th>
                 <th className="table-entry">
-                  {formatCurrency(exchange.volume)}
-                </th>
-                <th className="table-entry">
-                  {exchange.bid_ask_spread_percentage}%
-                </th>
-                <th className="table-entry">
-                  {formatDate(exchange.last_traded_at)}
+                  {formatDate(ticker.last_traded_at)}
                 </th>
               </tr>
             ))}
@@ -125,9 +145,7 @@ const ExchangePage: NextPage = () => {
         </table>
       </div>
       <div className="mt-5">
-        <h1 className="font-headings text-md mt-2 mb-4">
-          What is {exchangeMetaInfo.name}?
-        </h1>
+        <h1 className="font-headings text-md mt-2 mb-4">What is {name}?</h1>
         <p className="text-justify leading-10">
           {wiki.query.pages[28249265].extract}
         </p>
