@@ -1,10 +1,12 @@
 import { PrismaClient } from ".prisma/client";
-import { Arg, Ctx, Field, Mutation, ObjectType, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from "type-graphql";
 import { User } from "../prisma/generated/type-graphql"
 import { SignupInput } from "../utils/SignupInput";
-import { validateSignup } from "../utils/validateSignup";
+import { signupOutput, validateSignup } from "../utils/validateSignup";
 import argon from "argon2";
 import { myContext } from "../types";
+import validateUsername from "../utils/fieldValidations/validateUsername";
+import validateEmail from "../utils/fieldValidations/validateEmail";
 
 
 @ObjectType()
@@ -25,8 +27,66 @@ class UserResponse{
     error?: FieldError;
 }
 
+@InputType()
+export class UserUpdateInput {
+    @Field({nullable: true})
+    username: string;
+
+    @Field({nullable: true})
+    email: string;
+}
+
 @Resolver(User)
 export class UserResolver{
+
+    @Mutation(() => UserResponse)
+    async updateUsernameOrEmail(
+        @Arg("options") options: UserUpdateInput,
+        @Ctx() {prisma, req} : myContext
+    ){
+        const id = req.session.userId;
+
+        if(!id){
+            return {error : {
+                field : "username",
+                message : "You must be logged in to update your profile"
+            }};
+        }
+
+        const {username, email} = options;
+
+        let usernameValidation = null;
+        let emailValidation = null;
+        
+        if(username){
+            usernameValidation = validateUsername(username);
+        }
+        if(email){
+            emailValidation = validateEmail(email);
+        }
+
+        if(usernameValidation || emailValidation){
+            return usernameValidation || emailValidation;
+        }
+
+        //both fields are provided
+        if(options.username && options.email){
+            const user = await prisma.user.update({where : {id : id}, data : {
+                username : options.username,
+                email : options.email
+            }})
+            return {user};
+        }
+            
+        // only one of username or email is provided
+        const onlyUsername = username ? username : null;
+        const user = await prisma.user.update({where : {id : id}, data : {
+            [onlyUsername ? "username" : "email"] : onlyUsername ? username : email
+        }})
+
+        return {user};
+        
+    }
 
     @Query(() => User || null, {nullable: true})
     async user(
