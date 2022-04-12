@@ -1,17 +1,26 @@
 import { NextPage } from "next";
 import { Layout } from "../components/Layout";
 import Image from "next/image";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ME_QUERY } from "../graphql/queries";
 import { FormInput } from "../components/FormInput";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { FieldError } from "../types";
+import { UPDATE_USER_MUTATION } from "../graphql/mutations";
 
 const AccountPage: NextPage = () => {
-  const { data, error } = useQuery(ME_QUERY);
   const [newUsername, setNewUsername] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [fieldError, setFieldError] = useState<FieldError>(null);
+  const { data, error } = useQuery(ME_QUERY);
+  const [updateUsernameOrEmail] = useMutation(UPDATE_USER_MUTATION);
+
+  useEffect(() => {
+    if (data) {
+      setNewUsername(data.me.username);
+      setNewEmail(data.me.email);
+    }
+  }, [data]);
 
   if (error || !data) {
     return (
@@ -25,9 +34,32 @@ const AccountPage: NextPage = () => {
 
   const { username, email } = data?.me;
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submitted");
+    if (newUsername === "" && newEmail === "") {
+      setFieldError({
+        field: "username",
+        message: "Please fill in atleast one field",
+      });
+    }
+    if (newUsername === username && newEmail === email) {
+      setFieldError({
+        field: "username",
+        message: "You have not changed anything",
+      });
+    }
+    const response = await updateUsernameOrEmail({
+      variables: {
+        options: {
+          username: newUsername,
+          email: newEmail,
+        },
+      },
+    });
+    const { error } = response.data.updateUsernameOrEmail;
+    if (error) {
+      setFieldError(response.data.updateUsernameOrEmail.error);
+    }
   };
 
   return (
@@ -38,14 +70,14 @@ const AccountPage: NextPage = () => {
         <form onSubmit={(e) => handleSubmit(e)} className="w-1/4">
           <div className="mb-1 text-sm">Username</div>
           <FormInput
-            value={username}
+            value={newUsername}
             setValue={setNewUsername}
             error={fieldError}
             field="username"
           />
           <div className="mb-1 text-sm">Email</div>
           <FormInput
-            value={email}
+            value={newEmail}
             setValue={setNewEmail}
             error={fieldError}
             field="email"
