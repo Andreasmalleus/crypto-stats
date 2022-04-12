@@ -31,3 +31,19 @@ export const SIGNUP_MUTATION = gql`
 		}
 	}
 `
+
+export const UPDATE_USER_MUTATION = gql`
+	mutation UpdateUser($options: UserUpdateInput!){
+		updateUsernameOrEmail(options :$options){
+			user{
+				id,
+				username,
+				email
+			}
+			error{
+				field,
+				message
+			}
+		}
+	}
+`;
