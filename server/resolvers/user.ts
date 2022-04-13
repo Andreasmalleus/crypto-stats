@@ -175,6 +175,22 @@ export class UserResolver{
         };
     }
 
+    @Mutation(() => Boolean)
+    async logout(
+        @Ctx() {req, res} : myContext
+    ){
+        return new Promise(resolve => {
+            req.session.destroy((err) => {
+                res.clearCookie("qid");
+                if(err){
+                    resolve(false)
+                    return;
+                }
+                resolve(true)
+            })
+        })
+    }
+
     @Mutation(() => UserResponse)
     async login(
         @Arg("usernameOrEmail") usernameOrEmail: string,
