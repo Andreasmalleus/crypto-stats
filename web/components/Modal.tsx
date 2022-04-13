@@ -1,5 +1,7 @@
+import { useMutation, useApolloClient } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
+import { LOGOUT_MUTATION } from "../graphql/mutations";
 
 interface ModalProps {
   username: string;
@@ -12,6 +14,18 @@ export const Modal: React.FC<ModalProps> = ({
   isShown,
   setIsShown,
 }) => {
+  const [logOut] = useMutation(LOGOUT_MUTATION);
+  const apollo = useApolloClient();
+  const handleLogOut = async () => {
+    const response = await logOut();
+    if (!response.data) {
+      console.log("something went wrong");
+      return;
+    }
+    apollo.cache.reset();
+    return;
+  };
+
   return (
     <div
       className="absolute hidden z-50 m-auto pt-4"
@@ -36,7 +50,10 @@ export const Modal: React.FC<ModalProps> = ({
             Account Settings
           </div>
         </Link>
-        <div className="text-xs p-2 hover:bg-slate-100 rounded-md cursor-pointer">
+        <div
+          onClick={() => handleLogOut()}
+          className="text-xs p-2 hover:bg-slate-100 rounded-md cursor-pointer"
+        >
           Log out
         </div>
       </div>
