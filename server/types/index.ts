@@ -5,6 +5,8 @@ export type myContext = {
   req : Express.Request  & {
       session : Session
   },
-  res : Express.Response,
+  res : Express.Response & {
+    clearCookie : Function
+  },
   prisma : PrismaClient
 }
