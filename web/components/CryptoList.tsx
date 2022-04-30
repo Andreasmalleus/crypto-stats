@@ -9,9 +9,54 @@ import { Table } from "./Table/index";
 import { fetchRoute } from "../utils/fetchRoute";
 import { ClipLoader } from "react-spinners";
 import { Listing } from "../types";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { FAVORITE_MUTATION, UNFAVORITE_MUTATION } from "../graphql/mutations";
+import { FAVORITES_QUERY } from "../graphql/queries";
+import { checkIfFavorite } from "../utils/checkIfFavorite";
 
 export const Cryptolist: React.FC = () => {
   const { data, error, isValidating } = useSwr("api/listings", fetchRoute);
+  const [addToWishlist] = useMutation(FAVORITE_MUTATION);
+  const [removeFromWishlist] = useMutation(UNFAVORITE_MUTATION);
+
+  const category = "crypto";
+
+  const { data: favoritesData, loading } = useQuery(FAVORITES_QUERY, {
+    variables: {
+      category,
+    },
+  });
+
+  const apollo = useApolloClient();
+
+  const handleWishlist = async (id: number, remove: boolean) => {
+    let response = null;
+    const variables = {
+      id,
+      category,
+    };
+    if (remove) {
+      response = await removeFromWishlist({
+        variables,
+        update(cache) {
+          const normalizedId = cache.identify({ id, __typename: "Favorite" });
+          cache.evict({ id: normalizedId });
+          cache.gc();
+        },
+      });
+      return;
+    }
+    response = await addToWishlist({
+      variables,
+    });
+    apollo.cache.writeQuery({
+      query: FAVORITES_QUERY,
+      data: {
+        favorites: [...favoritesData.favorites, response.data.favorite],
+      },
+      variables,
+    });
+  };
 
   if (error) {
     return (
@@ -21,7 +66,7 @@ export const Cryptolist: React.FC = () => {
     );
   }
 
-  if (!data || isValidating) {
+  if (!data || isValidating || loading) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <ClipLoader size={40} />
@@ -50,13 +95,25 @@ export const Cryptolist: React.FC = () => {
           className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
         >
           <th className="table-entry text-left px-3">
-            <Image
-              src="/icons/star-empty.svg"
-              alt=""
-              width={13}
-              height={13}
-              className="cursor-pointer"
-            />
+            {checkIfFavorite(listing.id, favoritesData.favorites) ? (
+              <Image
+                src="/icons/star-full.svg"
+                alt=""
+                width={13}
+                height={13}
+                className="cursor-pointer"
+                onClick={() => handleWishlist(listing.id, true)}
+              />
+            ) : (
+              <Image
+                src="/icons/star-empty.svg"
+                alt=""
+                width={13}
+                height={13}
+                className="cursor-pointer"
+                onClick={() => handleWishlist(listing.id, false)}
+              />
+            )}
           </th>
           <th className="table-entry text-left">{index + 1}</th>
           <th className="table-entry text-left">
@@ -157,3 +214,6 @@ export const Cryptolist: React.FC = () => {
     </Table>
   );
 };
+function FAVORITE_QUERY(FAVORITE_QUERY: any): [any, any] {
+  throw new Error("Function not implemented.");
+}

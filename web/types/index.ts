@@ -71,3 +71,9 @@ export type ExchangeTicker = {
   trust_score: string;
   volume: number;
 }
+
+export type Favorite = {
+  category: string;
+  id: number;
+  userId: number;
+};
