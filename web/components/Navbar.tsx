@@ -37,9 +37,9 @@ export const Navbar: React.FC = () => {
               </a>
             </Link>
             {isMe ? (
-              <Link href={"/favorites"}>
+              <Link href={"/watchlist"}>
                 <a className="text-xs mr-8 transition duration-200 hover:text-slate-400 cursor-pointer">
-                  Favorites
+                  Watchlist
                 </a>
               </Link>
             ) : null}
@@ -47,8 +47,6 @@ export const Navbar: React.FC = () => {
         </nav>
         <div className="flex items-center font-body relative">
           {loading ? <div className="text-sm">Loading...</div> : null}
-          {error ? <div className="text-sm">Error...</div> : null}
-
           {isMe ? (
             <div
               className="text-xs mr-2"
