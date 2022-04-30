@@ -53,3 +53,19 @@ export const UPDATE_USER_MUTATION = gql`
 		}
 	}
 `;
+
+export const FAVORITE_MUTATION = gql`
+	mutation Favorite($id: Int!, $category: String!){
+		favorite(id: $id, category:$category){
+			id
+			userId,
+			category
+		}
+	}
+`
+
+export const UNFAVORITE_MUTATION = gql`
+	mutation UnFavorite($id: Int!, $category: String!){
+		unfavorite(id: $id, category: $category)
+	}
+`

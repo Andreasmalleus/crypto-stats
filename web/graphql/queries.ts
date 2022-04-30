@@ -9,3 +9,13 @@ export const ME_QUERY = gql`
     }
   }
   `
+
+export const FAVORITES_QUERY = gql`
+  query Favorites($category: String!) {
+    favorites(category: $category) {
+      id
+      category
+      userId
+    }
+  }
+`
