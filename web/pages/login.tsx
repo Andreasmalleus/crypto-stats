@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
@@ -6,8 +6,15 @@ import { LOGIN_MUTATION } from "../graphql/mutations";
 import { FieldError } from "../types";
 import { FormInput } from "../components/FormInput";
 import { useRouter } from "next/router";
+import { ME_QUERY } from "../graphql/queries";
 
 interface LoginProps {}
+
+type LoginData = {
+  id: number;
+  username: string;
+  email: string;
+};
 
 const Login: React.FC<LoginProps> = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -15,6 +22,22 @@ const Login: React.FC<LoginProps> = () => {
   const [login] = useMutation(LOGIN_MUTATION);
   const [error, setError] = useState<FieldError>(null);
   const router = useRouter();
+
+  const apollo = useApolloClient();
+
+  const updateCache = ({ id, username, email }: LoginData) => {
+    apollo.cache.writeQuery({
+      query: ME_QUERY,
+      data: {
+        me: {
+          __typename: "User",
+          id: id,
+          username: username,
+          email: email,
+        },
+      },
+    });
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,6 +55,8 @@ const Login: React.FC<LoginProps> = () => {
       setError(response.data.login.error);
       return;
     }
+    const { id, username, email } = response.data.login.user;
+    updateCache({ id, username, email });
     router.push("/");
     return;
   };
