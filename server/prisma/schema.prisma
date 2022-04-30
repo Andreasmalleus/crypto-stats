@@ -18,6 +18,14 @@ model User{
 	updatedAt DateTime @updatedAt
 	username String @unique
 	email String @unique
+	favorites Favorite[]
 	/// @TypeGraphQL.omit(output: true)
 	password String
+}
+
+model Favorite{
+	id Int @id
+	category String
+	user User @relation(fields: [userId], references: [id])
+	userId Int
 }
