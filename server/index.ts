@@ -7,6 +7,7 @@ import express from "express"
 import session from "express-session"
 import connectRedis from "connect-redis";
 import Redis from "ioredis";
+import { FavoriteResolver } from "./resolvers/favorite";
 
 
 const prisma = new PrismaClient();
@@ -39,7 +40,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema : await buildSchema({
-            resolvers : [UserResolver],
+            resolvers : [UserResolver, FavoriteResolver],
         }),
         context : ({req, res}) => ({prisma, req, res})
     });
