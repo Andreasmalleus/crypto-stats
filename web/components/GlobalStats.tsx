@@ -44,13 +44,13 @@ export const GlobalStats = () => {
         <div className="mr-4 text-xs">
           <span className="mr-1">Market Cap:</span>
           <span className="font-headings">
-            ${formatCurrency(quote.USD.total_market_cap)}
+            €{formatCurrency(quote.USD.total_market_cap)}
           </span>
         </div>
         <div className="mr-4 text-xs">
           <span className="mr-1">24h Vol:</span>
           <span className="font-headings">
-            ${formatCurrency(quote.USD.total_volume_24h)}
+            €{formatCurrency(quote.USD.total_volume_24h)}
           </span>
         </div>
         <div className="mr-4 text-xs">
@@ -66,7 +66,7 @@ export const GlobalStats = () => {
       <div className="flex text-xs items-center">
         <div className="flex items-center cursor-pointer">
           <Image src={"/images/EUR.png"} width={15} height={15} />
-          <div className="font-headings ml-1">EUR</div>
+          <div className="font-headings ml-1">USD</div>
         </div>
         <div className="font-headings mx-2">/</div>
         <div className="cursor-pointer">

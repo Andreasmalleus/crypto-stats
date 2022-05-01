@@ -119,7 +119,7 @@ export const Cryptolist: React.FC = () => {
           </th>
           <Link href={`/currencies/${listing.slug}`}>
             <th style={{ cursor: "pointer" }} className="table-entry">
-              ${formatCurrency(listing.quote.EUR.price)}
+              €{formatCurrency(listing.quote.EUR.price)}
             </th>
           </Link>
           <th
@@ -168,10 +168,10 @@ export const Cryptolist: React.FC = () => {
             </div>
           </th>
           <th className="table-entry">
-            ${formatCurrency(listing.quote.EUR.market_cap)}
+            €{formatCurrency(listing.quote.EUR.market_cap)}
           </th>
           <th className="table-entry">
-            ${formatCurrency(listing.quote.EUR.volume_24h)}
+            €{formatCurrency(listing.quote.EUR.volume_24h)}
           </th>
           <th className="table-entry">
             <span className="mr-1">
