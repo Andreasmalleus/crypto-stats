@@ -11,7 +11,7 @@ import { SideSection } from "../../components/SideSection";
 import { Router, withRouter } from "next/router";
 import useSWR from "swr";
 import { fetchRoute } from "../../utils/fetchRoute";
-import { ClipLoader } from "react-spinners";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const CryptoPage: NextPage<any> = ({ router }) => {
   const { currency } = router.query;

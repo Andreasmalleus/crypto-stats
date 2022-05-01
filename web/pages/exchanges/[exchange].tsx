@@ -7,7 +7,7 @@ import Image from "next/image";
 import { formatCurrency } from "../../utils/formatCurrency";
 import useSWR from "swr";
 import { fetchRoute } from "../../utils/fetchRoute";
-import { ClipLoader } from "react-spinners";
+import ClipLoader from "react-spinners/ClipLoader";
 import { formatDate } from "../../utils/formatDate";
 import { ExchangeTicker } from "../../types";
 

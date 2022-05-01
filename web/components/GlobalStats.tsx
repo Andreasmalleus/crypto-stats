@@ -2,7 +2,7 @@ import { formatCurrency } from "../utils/formatCurrency";
 import Image from "next/image";
 import useSwr from "swr";
 import { fetchRoute } from "../utils/fetchRoute";
-import { BeatLoader } from "react-spinners";
+import BeatLoader from "react-spinners/BeatLoader";
 
 export const GlobalStats = () => {
   const { data, error, isValidating } = useSwr(

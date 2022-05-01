@@ -7,13 +7,12 @@ import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
 import useSwr from "swr";
 import { Table } from "./Table/index";
 import { fetchRoute } from "../utils/fetchRoute";
-import { ClipLoader } from "react-spinners";
+import ClipLoader from "react-spinners/ClipLoader";
 import { Listing } from "../types";
 import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { FAVORITE_MUTATION, UNFAVORITE_MUTATION } from "../graphql/mutations";
 import { FAVORITES_QUERY } from "../graphql/queries";
 import { checkIfFavorite } from "../utils/checkIfFavorite";
-import { listings } from "../data";
 import {
   handleAddToWatchlist,
   handleRemoveFromWatchlist,
@@ -64,7 +63,7 @@ export const Cryptolist: React.FC = () => {
         "Last 7 days",
       ]}
     >
-      {data?.data.map((listing: any, index: number) => (
+      {data?.data.map((listing: Listing, index: number) => (
         <tr
           key={listing.id}
           className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
@@ -198,6 +197,3 @@ export const Cryptolist: React.FC = () => {
     </Table>
   );
 };
-function FAVORITE_QUERY(FAVORITE_QUERY: any): [any, any] {
-  throw new Error("Function not implemented.");
-}

@@ -5,7 +5,7 @@ import { Table } from "./Table/";
 import useSwr from "swr";
 import { fetchRoute } from "../utils/fetchRoute";
 import React from "react";
-import { ClipLoader } from "react-spinners";
+import ClipLoader from "react-spinners/ClipLoader";
 import { Exchange } from "../types";
 
 export const ExchangesList: React.FC = () => {

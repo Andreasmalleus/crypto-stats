@@ -22,10 +22,7 @@ ChartJS.register(
   Filler
 );
 import { Line } from "react-chartjs-2";
-import { historical } from "../data";
-import { formatCurrency } from "../utils/formatCurrency";
-import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { formatDate } from "../utils/formatDate";
 import useSWR from "swr";
 import { fetchRoute } from "../utils/fetchRoute";
