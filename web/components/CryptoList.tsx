@@ -13,50 +13,25 @@ import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { FAVORITE_MUTATION, UNFAVORITE_MUTATION } from "../graphql/mutations";
 import { FAVORITES_QUERY } from "../graphql/queries";
 import { checkIfFavorite } from "../utils/checkIfFavorite";
+import { listings } from "../data";
+import {
+  handleAddToWatchlist,
+  handleRemoveFromWatchlist,
+} from "../utils/handleWatchlist";
 
 export const Cryptolist: React.FC = () => {
   const { data, error, isValidating } = useSwr("api/listings", fetchRoute);
-  const [addToWishlist] = useMutation(FAVORITE_MUTATION);
-  const [removeFromWishlist] = useMutation(UNFAVORITE_MUTATION);
 
-  const category = "crypto";
-
-  const { data: favoritesData, loading } = useQuery(FAVORITES_QUERY, {
-    variables: {
-      category,
-    },
-  });
+  const [addToWatchlist] = useMutation(FAVORITE_MUTATION);
+  const [removeFromWatchlist] = useMutation(UNFAVORITE_MUTATION);
 
   const apollo = useApolloClient();
 
-  const handleWishlist = async (id: number, remove: boolean) => {
-    let response = null;
-    const variables = {
-      id,
-      category,
-    };
-    if (remove) {
-      response = await removeFromWishlist({
-        variables,
-        update(cache) {
-          const normalizedId = cache.identify({ id, __typename: "Favorite" });
-          cache.evict({ id: normalizedId });
-          cache.gc();
-        },
-      });
-      return;
-    }
-    response = await addToWishlist({
-      variables,
-    });
-    apollo.cache.writeQuery({
-      query: FAVORITES_QUERY,
-      data: {
-        favorites: [...favoritesData.favorites, response.data.favorite],
-      },
-      variables,
-    });
-  };
+  const { data: favoritesData, loading } = useQuery(FAVORITES_QUERY, {
+    variables: {
+      category: "crypto",
+    },
+  });
 
   if (error) {
     return (
@@ -89,7 +64,7 @@ export const Cryptolist: React.FC = () => {
         "Last 7 days",
       ]}
     >
-      {data?.data.map((listing: Listing, index: number) => (
+      {data?.data.map((listing: any, index: number) => (
         <tr
           key={listing.id}
           className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
@@ -102,7 +77,9 @@ export const Cryptolist: React.FC = () => {
                 width={13}
                 height={13}
                 className="cursor-pointer"
-                onClick={() => handleWishlist(listing.id, true)}
+                onClick={() =>
+                  handleRemoveFromWatchlist(listing.id, removeFromWatchlist)
+                }
               />
             ) : (
               <Image
@@ -111,7 +88,14 @@ export const Cryptolist: React.FC = () => {
                 width={13}
                 height={13}
                 className="cursor-pointer"
-                onClick={() => handleWishlist(listing.id, false)}
+                onClick={() =>
+                  handleAddToWatchlist(
+                    listing.id,
+                    favoritesData.favorites,
+                    addToWatchlist,
+                    apollo.cache
+                  )
+                }
               />
             )}
           </th>
