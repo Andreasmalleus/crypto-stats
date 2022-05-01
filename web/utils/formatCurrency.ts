@@ -1,6 +1,12 @@
+const formatter = new Intl.NumberFormat('eu', {
+  style : "currency",
+  currency : "EUR",
+})
+
 export const formatCurrency = (val: number | null) => {
   if(val == null){
     return 0;
   }
-  return val.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, ",");
+  const formatted = formatter.format(val);
+  return formatted.slice(1, formatted.length);
   };
