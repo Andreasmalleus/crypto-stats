@@ -5,19 +5,10 @@ import { Layout } from "../components/Layout";
 import { SearchContext } from "../utils/searchContext";
 
 const Home: NextPage = () => {
-  const [searchInput, setSearchInput] = useState("");
-
   return (
-    <SearchContext.Provider
-      value={{
-        searchInput,
-        setSearchInput,
-      }}
-    >
-      <Layout>
-        <Cryptolist />
-      </Layout>
-    </SearchContext.Provider>
+    <Layout>
+      <Cryptolist />
+    </Layout>
   );
 };
 

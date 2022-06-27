@@ -3,7 +3,7 @@ import { Layout } from "../components/Layout";
 import { FAVORITES_QUERY } from "../graphql/queries";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Favorite, Listing } from "../types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetchRoute } from "../utils/fetchRoute";
 import { formatCurrency } from "../utils/formatCurrency";
@@ -15,6 +15,7 @@ import { Table } from "../components/Table";
 import { getFilters } from "../utils/getFilters";
 import { UNFAVORITE_MUTATION } from "../graphql/mutations";
 import { handleRemoveFromWatchlist } from "../utils/handleWatchlist";
+import { SearchContext } from "../utils/searchContext";
 
 interface WatchlistProps {}
 
@@ -62,6 +63,14 @@ const Watchlist: React.FC<WatchlistProps> = () => {
     });
   };
 
+  if (error) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        Something went wrong...
+      </div>
+    );
+  }
+
   if (loading || isValidating) {
     return (
       <Layout>
@@ -77,26 +86,29 @@ const Watchlist: React.FC<WatchlistProps> = () => {
     setListings(listings.filter((listing) => listing.id !== id));
   };
 
+  const { searchInput } = useContext(SearchContext);
+
   return (
     <Layout>
-      {error ? (
-        <div>{error}</div>
-      ) : (
-        <Table
-          headers={[
-            "",
-            "#",
-            "Name",
-            "Price",
-            "24h %",
-            "7d %",
-            "Market Cap",
-            "Volume(24h)",
-            "Circulating Supply",
-            "Last 7 days",
-          ]}
-        >
-          {listings.map((listing: Listing, index: number) => {
+      <Table
+        headers={[
+          "",
+          "#",
+          "Name",
+          "Price",
+          "24h %",
+          "7d %",
+          "Market Cap",
+          "Volume(24h)",
+          "Circulating Supply",
+          "Last 7 days",
+        ]}
+      >
+        {listings
+          .filter((entry: Listing) =>
+            entry.name.trim().toLowerCase().includes(searchInput)
+          )
+          .map((listing: Listing, index: number) => {
             return (
               <tr
                 key={listing.id}
@@ -215,8 +227,7 @@ const Watchlist: React.FC<WatchlistProps> = () => {
               </tr>
             );
           })}
-        </Table>
-      )}
+      </Table>
     </Layout>
   );
 };

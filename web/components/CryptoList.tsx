@@ -68,9 +68,9 @@ export const Cryptolist: React.FC = () => {
       ]}
     >
       {data?.data
-        .filter((entry: Listing) => {
-          return entry.name.trim().toLowerCase().includes(searchInput);
-        })
+        .filter((entry: Listing) =>
+          entry.name.trim().toLowerCase().includes(searchInput)
+        )
         ?.map((listing: Listing, index: number) => (
           <tr
             key={listing.id}

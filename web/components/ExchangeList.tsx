@@ -4,9 +4,10 @@ import { useRouter } from "next/router";
 import { Table } from "./Table/";
 import useSwr from "swr";
 import { fetchRoute } from "../utils/fetchRoute";
-import React from "react";
+import React, { useContext } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Exchange } from "../types";
+import { SearchContext } from "../utils/searchContext";
 
 export const ExchangesList: React.FC = () => {
   const router = useRouter();
@@ -28,6 +29,7 @@ export const ExchangesList: React.FC = () => {
       </div>
     );
   }
+  const { searchInput } = useContext(SearchContext);
 
   return (
     <Table
@@ -40,39 +42,43 @@ export const ExchangesList: React.FC = () => {
         "Year Established",
       ]}
     >
-      {data.map((exchange: Exchange, index: number) => (
-        <tr
-          key={exchange.id}
-          className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100 cursor-pointer"
-          onClick={() => router.push(`/exchanges/${exchange.id}`)}
-        >
-          <th className="table-entry text-left py-5">{index + 1}</th>
-          <th className="table-entry text-left">
-            <div className="flex items-center cursor-pointer">
-              <Image
-                src={exchange.image}
-                alt=""
-                width={20}
-                height={20}
-                className="rounded-full"
-              />
-              <span className="ml-2">{exchange.name}</span>
-            </div>
-          </th>
-          <th className="table-entry">{exchange.trust_score}</th>
-          <th className="table-entry">
-            {formatCurrency(exchange.trade_volume_24h_btc)}
-          </th>
-          <th className="table-entry">
-            {exchange.country ? exchange.country : "not known"}
-          </th>
-          <th className="table-entry">
-            {exchange.year_established
-              ? exchange.year_established
-              : "not known"}
-          </th>
-        </tr>
-      ))}
+      {data
+        .filter((entry: Exchange) =>
+          entry.name.trim().toLowerCase().includes(searchInput)
+        )
+        .map((exchange: Exchange, index: number) => (
+          <tr
+            key={exchange.id}
+            className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100 cursor-pointer"
+            onClick={() => router.push(`/exchanges/${exchange.id}`)}
+          >
+            <th className="table-entry text-left py-5">{index + 1}</th>
+            <th className="table-entry text-left">
+              <div className="flex items-center cursor-pointer">
+                <Image
+                  src={exchange.image}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="rounded-full"
+                />
+                <span className="ml-2">{exchange.name}</span>
+              </div>
+            </th>
+            <th className="table-entry">{exchange.trust_score}</th>
+            <th className="table-entry">
+              {formatCurrency(exchange.trade_volume_24h_btc)}
+            </th>
+            <th className="table-entry">
+              {exchange.country ? exchange.country : "not known"}
+            </th>
+            <th className="table-entry">
+              {exchange.year_established
+                ? exchange.year_established
+                : "not known"}
+            </th>
+          </tr>
+        ))}
     </Table>
   );
 };
