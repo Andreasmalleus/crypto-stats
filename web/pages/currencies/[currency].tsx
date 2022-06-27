@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import { Layout } from "../../components/Layout";
-import { wiki } from "../../data";
 import { NameSection } from "../../components/NameSection";
 import { StatsSection } from "../../components/StatsSection";
 import Image from "next/image";
@@ -8,19 +7,42 @@ import Link from "next/link";
 import { Chart } from "../../components/Chart";
 import { Converter } from "../../components/Converter";
 import { SideSection } from "../../components/SideSection";
-import { Router, withRouter } from "next/router";
+import { withRouter } from "next/router";
 import useSWR from "swr";
 import { fetchRoute } from "../../utils/fetchRoute";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useEffect, useState } from "react";
 
 const CryptoPage: NextPage<any> = ({ router }) => {
   const { currency } = router.query;
+  const [wikiExtract, setWikiExtract] = useState("");
+
   const { data, error, isValidating } = useSWR(
     `/api/quotes/latest?slug=${currency}`,
     fetchRoute
   );
 
-  if (error) {
+  const {
+    data: wikiData,
+    isValidating: isLoadingWiki,
+    error: wikiError,
+  } = useSWR(`/api/wiki?slug=${currency}`, fetchRoute);
+
+  useEffect(() => {
+    getExtractFromWiki(wikiData);
+  }, [wikiData]);
+
+  const getExtractFromWiki = (wikiData: any) => {
+    console.log(wikiData);
+    if (wikiData) {
+      const key = Object.keys(wikiData?.query?.pages)[0];
+      const page = wikiData.query.pages[key];
+      if (page.missing) return;
+      setWikiExtract(page.extract);
+    }
+  };
+
+  if (error || wikiError) {
     return (
       <div className="h-full w-full flex justify-center items-center">
         Something went wrong...
@@ -28,7 +50,7 @@ const CryptoPage: NextPage<any> = ({ router }) => {
     );
   }
 
-  if (!data || isValidating) {
+  if (!data || isValidating || isLoadingWiki) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <ClipLoader size={40} />
@@ -36,7 +58,7 @@ const CryptoPage: NextPage<any> = ({ router }) => {
     );
   }
 
-  const currencyId: string = Object.keys(data.data)[0];
+  const currencyId = parseInt(Object.keys(data.data)[0]);
   const {
     name,
     symbol,
@@ -66,6 +88,7 @@ const CryptoPage: NextPage<any> = ({ router }) => {
       <div className="flex mb-10">
         <NameSection
           {...{
+            id: currencyId,
             logo,
             name,
             symbol,
@@ -91,10 +114,10 @@ const CryptoPage: NextPage<any> = ({ router }) => {
           }}
         />
       </div>
-      <div className="flex">
+      <div className="flex pb-5">
         <div className="flex-col w-8/12 items-center">
           <Chart slug={currency} />
-          <Converter logo={logo} symbol={symbol} name={name} />
+          <Converter logo={logo} symbol={symbol} name={name} id={currencyId} />
         </div>
         <SideSection
           name={name}
@@ -109,12 +132,12 @@ const CryptoPage: NextPage<any> = ({ router }) => {
           dilutedValue={quote.EUR.fully_diluted_market_cap}
         />
       </div>
-      <div className="mt-5">
-        <h1 className="font-headings text-md mt-2 mb-4">What is {name}?</h1>
-        <p className="text-justify leading-10">
-          {wiki.query.pages[28249265].extract}
-        </p>
-      </div>
+      {wikiExtract ? (
+        <div className="mt-5">
+          <h1 className="font-headings text-md mt-2 mb-4">What is {name}?</h1>
+          <p className="text-justify leading-10">{wikiExtract}</p>
+        </div>
+      ) : null}
     </Layout>
   );
 };
