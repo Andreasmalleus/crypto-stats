@@ -1,20 +1,37 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Image from "next/image";
+import useSWR from "swr";
+import { fetchRoute } from "../utils/fetchRoute";
+import { formatCurrency } from "../utils/formatCurrency";
 
 interface ConverterProps {
+  id: number;
   logo: string;
   symbol: string;
   name: string;
 }
 
-export const Converter: React.FC<ConverterProps> = ({ logo, symbol, name }) => {
-  const [base, setBase] = useState(1);
-  const [target, setTarget] = useState(0);
-  const [isSwitched, setIsSwitched] = useState(false);
+export const Converter: React.FC<ConverterProps> = ({
+  id,
+  logo,
+  symbol,
+  name,
+}) => {
+  const [base, setBase] = useState<number>(1);
+  const [target, setTarget] = useState<string>("");
 
-  const toggleSwitch = () => {
-    setIsSwitched(!isSwitched);
-  };
+  const { data } = useSWR(
+    `/api/convert?id=${id}&convertTo=EUR&amount=${base}`,
+    fetchRoute
+  );
+
+  useEffect(() => {
+    if (data != undefined) {
+      let currency: number = data?.data?.quote["EUR"].price;
+      let formattedCurrency: any = formatCurrency(currency);
+      setTarget(formattedCurrency);
+    }
+  }, [data]);
 
   return (
     <div>
@@ -24,27 +41,20 @@ export const Converter: React.FC<ConverterProps> = ({ logo, symbol, name }) => {
       <div className="flex items-center w-full rounded-xl border border-slate-200 relative">
         <div className="w-1/2 flex items-center p-4 justify-between">
           <Currency
-            logo={isSwitched ? "/images/EUR.png" : logo}
-            name={isSwitched ? "Euro" : name}
-            symbol={isSwitched ? "EUR" : symbol}
-            value={isSwitched ? target : base}
-            setValue={isSwitched ? setTarget : setBase}
+            logo={logo}
+            name={name}
+            symbol={symbol}
+            value={base}
+            setValue={setBase}
           />
-        </div>
-
-        <div
-          className="cursor-pointer absolute left-1/2 tranform -translate-x-1/2 m-0 p-1 border border-slate-200 rounded-full bg-slate-100"
-          onClick={() => toggleSwitch()}
-        >
-          <img src="/icons/swap-horizontal.svg" width={15} height={15} />
         </div>
         <div className="w-1/2 flex justify-between items-center p-4 bg-slate-100 rounded-tr-xl rounded-br-xl">
           <Currency
-            logo={!isSwitched ? "/images/EUR.png" : logo}
-            name={!isSwitched ? "Euro" : name}
-            symbol={!isSwitched ? "EUR" : symbol}
-            value={!isSwitched ? target : base}
-            setValue={!isSwitched ? setTarget : setBase}
+            logo={"/images/EUR.png"}
+            name={"Euro"}
+            symbol={"EUR"}
+            value={target}
+            setValue={setTarget}
             style={{ backgroundColor: "rgb(238,243,248)" }}
           />{" "}
         </div>
@@ -57,9 +67,9 @@ interface CurrencyProps {
   logo: string;
   name: string;
   symbol: string;
-  value: number;
+  value: string | number;
   style?: React.CSSProperties;
-  setValue: Dispatch<SetStateAction<number>>;
+  setValue: Dispatch<SetStateAction<any>>;
 }
 
 const Currency: React.FC<CurrencyProps> = ({
@@ -85,7 +95,7 @@ const Currency: React.FC<CurrencyProps> = ({
         style={style}
         value={value}
         onChange={(e) => {
-          setValue(parseFloat(e.target.value) || 0);
+          setValue(e.target.value);
         }}
       />
     </>
