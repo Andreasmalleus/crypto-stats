@@ -54,12 +54,6 @@ export const StatsSection: React.FC<StatsSectionProps> = ({
         >
           {formatCurrency(percentChange1h)}%
         </div>
-        <div>
-          <button className="btn-primary text-xs p-1 px-2 ml-2">Buy</button>
-          <button className="btn-primary text-xs p-1 px-2 ml-2">
-            Exchange
-          </button>
-        </div>
       </div>
 
       {/* statistics about the currency itself */}

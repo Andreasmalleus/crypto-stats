@@ -63,7 +63,7 @@ export const Cryptolist: React.FC = () => {
         "Last 7 days",
       ]}
     >
-      {data?.data.map((listing: Listing, index: number) => (
+      {data?.data.map((listing: any, index: number) => (
         <tr
           key={listing.id}
           className="border-b-2 border-slate-100 transition duration-250 hover:bg-slate-100"
@@ -101,7 +101,7 @@ export const Cryptolist: React.FC = () => {
           <th className="table-entry text-left">{index + 1}</th>
           <th className="table-entry text-left">
             <Link href={`/currencies/${listing.slug}`}>
-              <div className="flex justify-center items-center cursor-pointer">
+              <div className="flex items-center cursor-pointer">
                 <Image
                   src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${listing.id}.png`}
                   alt=""
@@ -111,9 +111,6 @@ export const Cryptolist: React.FC = () => {
                 />
                 <span className="ml-2">{listing.name}</span>
                 <span className="ml-2 text-slate-400">{listing.symbol}</span>
-                <button className="ml-2 text-black rounded-md text-xs py-1 px-2 cursor-pointer m-auto bg-slate-200">
-                  Buy
-                </button>
               </div>
             </Link>
           </th>
