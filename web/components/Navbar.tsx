@@ -1,17 +1,20 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { GlobalStats } from "./GlobalStats";
 import { useQuery } from "@apollo/client";
 import { ME_QUERY } from "../graphql/queries";
 import Image from "next/image";
 import { Modal } from "./Modal";
+import { SearchContext } from "../utils/searchContext";
 
 export const Navbar: React.FC = () => {
   const router = useRouter();
 
   const { data, loading, error } = useQuery(ME_QUERY);
   const [isShown, setIsShown] = useState(false);
+
+  const { setSearchInput, searchInput } = useContext(SearchContext);
 
   let isMe = data?.me ? true : false;
 
@@ -79,6 +82,8 @@ export const Navbar: React.FC = () => {
           <input
             className="btn-primary w-48 placeholder-white shadow-lg"
             placeholder="Search"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
       </header>
