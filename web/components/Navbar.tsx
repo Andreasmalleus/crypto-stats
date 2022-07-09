@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
-import { GlobalStats } from "./GlobalStats";
 import { useQuery } from "@apollo/client";
 import { ME_QUERY } from "../graphql/queries";
 import Image from "next/image";
@@ -20,8 +19,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="w-full max-w-screen-xl">
-      <GlobalStats />
-      <header className="h-50 flex justify-between top-0 z-50 max-w-screen-xl m-auto mb-8 font-headings">
+      <header className="h-50 flex justify-between top-0 z-50 max-w-screen-xl m-auto mb-8 font-headings mt-8">
         <nav className="flex items-center">
           <Link href={"/"}>
             <a className="text-2xl mr-8 cursor-pointer tracking-widest">

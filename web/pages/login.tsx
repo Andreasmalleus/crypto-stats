@@ -1,4 +1,4 @@
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
@@ -7,14 +7,15 @@ import { FieldError } from "../types";
 import { FormInput } from "../components/FormInput";
 import { useRouter } from "next/router";
 import { ME_QUERY } from "../graphql/queries";
+import checkAuth from "../hocs/checkAuth";
 
 interface LoginProps {}
 
-type LoginData = {
+interface LoginData {
   id: number;
   username: string;
   email: string;
-};
+}
 
 const Login: React.FC<LoginProps> = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -118,4 +119,4 @@ const Login: React.FC<LoginProps> = () => {
   );
 };
 
-export default Login;
+export default checkAuth(Login);

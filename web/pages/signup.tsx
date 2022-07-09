@@ -6,6 +6,7 @@ import { SIGNUP_MUTATION } from "../graphql/mutations";
 import { FieldError } from "../types";
 import { FormInput } from "../components/FormInput";
 import Router, { useRouter } from "next/router";
+import checkAuth from "../hocs/checkAuth";
 
 interface SignupProps {}
 
@@ -46,7 +47,6 @@ const Signup: React.FC<SignupProps> = () => {
       setError(response.data.signup.error);
       return;
     }
-    console.log(response);
     router.push("/login");
     return;
   };
@@ -120,4 +120,4 @@ const Signup: React.FC<SignupProps> = () => {
   );
 };
 
-export default Signup;
+export default checkAuth(Signup);
