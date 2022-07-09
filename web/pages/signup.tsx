@@ -42,10 +42,11 @@ const Signup: React.FC<SignupProps> = () => {
         },
       },
     });
-    if (response.data.login?.error) {
-      setError(response.data.login.error);
+    if (response.data.signup?.error) {
+      setError(response.data.signup.error);
       return;
     }
+    console.log(response);
     router.push("/login");
     return;
   };
