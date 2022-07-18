@@ -3,7 +3,7 @@ import { Layout } from "../components/Layout";
 import Image from "next/image";
 import { useMutation, useQuery } from "@apollo/client";
 import { ME_QUERY } from "../graphql/queries";
-import { FormInput } from "../components/FormInput";
+import { FormInput } from "../components/Form/Input";
 import { FormEvent, useEffect, useState } from "react";
 import { FieldError } from "../types";
 import { UPDATE_USER_MUTATION } from "../graphql/mutations";
@@ -71,14 +71,14 @@ const AccountPage: NextPage = () => {
           <div className="mb-1 text-sm">Username</div>
           <FormInput
             value={newUsername}
-            setValue={setNewUsername}
+            handleChange={setNewUsername}
             error={fieldError}
             field="username"
           />
           <div className="mb-1 text-sm">Email</div>
           <FormInput
             value={newEmail}
-            setValue={setNewEmail}
+            handleChange={setNewEmail}
             error={fieldError}
             field="email"
           />

@@ -1,25 +1,31 @@
 import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { SIGNUP_MUTATION } from "../graphql/mutations";
-import { FieldError } from "../types";
 import { useRouter } from "next/router";
 import checkAuth from "../hocs/checkAuth";
 import { Form, InputType } from "../components/Form";
+import { useAuthReducer } from "../hooks/useAuthReducer";
 
 interface SignupProps {}
 
 const Signup: React.FC<SignupProps> = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [signup] = useMutation(SIGNUP_MUTATION);
-  const [error, setError] = useState<FieldError>(null);
   const router = useRouter();
+  const { state, dispatch } = useAuthReducer({
+    username: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+    error: null,
+  });
+  const { username, email, password, passwordConfirm, error } = state;
 
-  //TODO Usereducer
+  const handleField = (payload: string, field: string) => {
+    dispatch({ type: "FIELD", field, payload });
+    return;
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,13 +35,20 @@ const Signup: React.FC<SignupProps> = () => {
       password === "" ||
       passwordConfirm === ""
     ) {
-      setError({ field: "username", message: "Please fill in all fields" });
+      dispatch({
+        type: "ERROR",
+        error: { field: "username", message: "Please fill in all fields" },
+      });
       return;
     }
     if (password !== passwordConfirm) {
-      setError({ field: "password", message: "Passwords do not match" });
+      dispatch({
+        type: "ERROR",
+        error: { field: "password", message: "Passwords do not match" },
+      });
       return;
     }
+
     const response = await signup({
       variables: {
         options: {
@@ -46,7 +59,7 @@ const Signup: React.FC<SignupProps> = () => {
       },
     });
     if (response.data.signup?.error) {
-      setError(response.data.signup.error);
+      dispatch({ type: "ERROR", error: response.data.signup.error });
       return;
     }
     router.push("/login");
@@ -55,28 +68,21 @@ const Signup: React.FC<SignupProps> = () => {
 
   const inputs: InputType[] = [
     {
-      value: username,
+      value: username!,
       field: "username",
-      setter: setUsername,
-      title: "Username",
     },
     {
-      value: email,
+      value: email!,
       field: "email",
-      setter: setEmail,
-      title: "Email",
     },
     {
       value: password,
       field: "password",
-      setter: setPassword,
-      title: "password",
-      type: "Password",
+      type: "password",
     },
     {
-      value: passwordConfirm,
+      value: passwordConfirm!,
       field: "passwordConfirm",
-      setter: setPasswordConfirm,
       title: "Confirm Password",
       type: "password",
     },
@@ -88,6 +94,7 @@ const Signup: React.FC<SignupProps> = () => {
       title={"Sign up"}
       inputs={inputs}
       error={error}
+      handleChange={handleField}
     >
       <div className="flex items-center mb-4">
         <div className="w-1/2 h-1 bg-slate-100 mr-2 rounded"></div>

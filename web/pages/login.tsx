@@ -4,11 +4,12 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { LOGIN_MUTATION } from "../graphql/mutations";
 import { FieldError } from "../types";
-import { FormInput } from "../components/Form/FormInput";
+import { FormInput } from "../components/Form/Input";
 import { useRouter } from "next/router";
 import { ME_QUERY } from "../graphql/queries";
 import checkAuth from "../hocs/checkAuth";
 import { Form } from "../components/Form";
+import { useAuthReducer } from "../hooks/useAuthReducer";
 
 interface LoginProps {}
 
@@ -19,11 +20,15 @@ interface LoginData {
 }
 
 const Login: React.FC<LoginProps> = () => {
-  const [usernameOrEmail, setUsernameOrEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { state, dispatch } = useAuthReducer({
+    usernameOrEmail: "",
+    password: "",
+    error: null,
+  });
   const [login] = useMutation(LOGIN_MUTATION);
-  const [error, setError] = useState<FieldError>(null);
   const router = useRouter();
+
+  const { usernameOrEmail, password, error } = state;
 
   const apollo = useApolloClient();
 
@@ -41,12 +46,20 @@ const Login: React.FC<LoginProps> = () => {
     });
   };
 
+  const handleField = (payload: string, field: string) => {
+    dispatch({ type: "FIELD", field, payload });
+    return;
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (usernameOrEmail === "" || password === "") {
-      setError({
-        field: "usernameOrEmail",
-        message: "Please fill in all fields",
+      dispatch({
+        type: "ERROR",
+        error: {
+          field: "usernameOrEmail",
+          message: "Please fill in all fields",
+        },
       });
       return;
     }
@@ -54,7 +67,10 @@ const Login: React.FC<LoginProps> = () => {
       variables: { usernameOrEmail: usernameOrEmail, password: password },
     });
     if (response.data.login?.error) {
-      setError(response.data.login.error);
+      dispatch({
+        type: "ERROR",
+        error: response.data.login.error,
+      });
       return;
     }
     const { id, username, email } = response.data.login.user;
@@ -65,16 +81,13 @@ const Login: React.FC<LoginProps> = () => {
 
   const inputs = [
     {
-      value: usernameOrEmail,
+      value: usernameOrEmail!,
       field: "usernameOrEmail",
-      setter: setUsernameOrEmail,
       title: "Username/Email",
     },
     {
       value: password,
       field: "password",
-      setter: setPassword,
-      title: "Password",
       type: "password",
     },
   ];
@@ -85,11 +98,11 @@ const Login: React.FC<LoginProps> = () => {
       title={"Log in"}
       inputs={inputs}
       error={error}
+      handleChange={handleField}
     >
       <div className="text-xs mb-2 underline cursor-pointer">
         Forgot password?
       </div>
-      <button className="btn-primary mt-3 mb-5 shadow-md">Log in</button>
       <div className="flex items-center mb-4">
         <div className="w-1/2 h-1 bg-slate-100 mr-2 rounded"></div>
         <div className="text-slate-200 text-xs">OR</div>
