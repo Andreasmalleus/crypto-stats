@@ -32,30 +32,32 @@ export const Modal: React.FC<ModalProps> = ({
       style={{ display: isShown ? "block" : "none" }}
       onMouseLeave={() => setIsShown(false)}
     >
-      <div className="shadow-md bg-white rounded-md py-6 px-8">
-        <div className="flex border-b border-slate-200 pb-4 items-center cursor-pointer">
+      <div className="shadow-md bg-white rounded-md">
+        <div className="flex border-b border-slate-200 items-center py-4 px-6 hover:bg-slate-100 cursor-pointer">
           <Image src="/icons/user.svg" width={40} height={40} />
           <div className="flex-col ml-2">
             <div className="text-xs">{username}</div>
             <div className="text-xs text-slate-400">View my profile</div>
           </div>
         </div>
-        <Link href="/watchlist">
-          <div className="text-xs p-2 mt-4 hover:bg-slate-100 rounded-md cursor-pointer">
-            Watchlist
-          </div>
-        </Link>
-        <Link href="/account">
-          <div className="text-xs p-2 my-4 hover:bg-slate-100 rounded-md cursor-pointer">
-            Account Settings
-          </div>
-        </Link>
-        <div
-          onClick={() => handleLogOut()}
-          className="text-xs p-2 hover:bg-slate-100 rounded-md cursor-pointer"
-        >
-          Log out
-        </div>
+        <nav className="flex flex-col p-2">
+          <Link href="/watchlist">
+            <a className="text-xs hover:bg-slate-100 rounded-md cursor-pointer px-4 py-2">
+              Watchlist
+            </a>
+          </Link>
+          <Link href="/account">
+            <a className="text-xs hover:bg-slate-100 rounded-md cursor-pointer px-4 py-2">
+              Account Settings
+            </a>
+          </Link>
+          <a
+            onClick={() => handleLogOut()}
+            className="text-xs hover:bg-slate-100 rounded-md cursor-pointer px-4 py-2"
+          >
+            Log out
+          </a>
+        </nav>
       </div>
     </div>
   );
