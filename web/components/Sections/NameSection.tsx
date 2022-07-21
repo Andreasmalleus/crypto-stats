@@ -69,7 +69,14 @@ export const NameSection: React.FC<NameSectionProps> = ({
               width={13}
               height={13}
               className="cursor-pointer"
-              onClick={() => handleRemoveFromWatchlist(id, removeFromWatchlist)}
+              onClick={() =>
+                handleRemoveFromWatchlist(
+                  id,
+                  data?.favorites,
+                  removeFromWatchlist,
+                  apollo.cache
+                )
+              }
             />
           </div>
         ) : (
