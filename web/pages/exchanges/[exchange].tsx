@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Layout } from "../../components/Layout";
-import { wiki } from "../../data";
 import Link from "next/link";
 import Image from "next/image";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -10,17 +9,38 @@ import { fetchRoute } from "../../utils/fetchRoute";
 import ClipLoader from "react-spinners/ClipLoader";
 import { formatDate } from "../../utils/formatDate";
 import { ExchangeTicker } from "../../types";
+import { useEffect, useState } from "react";
 
 const ExchangePage: NextPage = () => {
   const router = useRouter();
   const { exchange } = router.query;
+  const [wikiExtract, setWikiExtract] = useState("");
 
   const { data, error, isValidating } = useSWR(
     "/api/metrics/exchange?slug=" + exchange,
     fetchRoute
   );
 
-  if (error) {
+  const {
+    data: wikiData,
+    isValidating: isLoadingWiki,
+    error: wikiError,
+  } = useSWR(`/api/wiki?slug=${exchange}`, fetchRoute);
+
+  useEffect(() => {
+    getExtractFromWiki(wikiData);
+  }, [wikiData]);
+
+  const getExtractFromWiki = (wikiData: any) => {
+    if (wikiData) {
+      const key = Object.keys(wikiData?.query?.pages)[0];
+      const page = wikiData.query.pages[key];
+      if (page.missing) return;
+      setWikiExtract(page.extract);
+    }
+  };
+
+  if (error || wikiError) {
     return (
       <div className="h-full w-full flex justify-center items-center">
         Something went wrong...
@@ -28,7 +48,7 @@ const ExchangePage: NextPage = () => {
     );
   }
 
-  if (!data || isValidating) {
+  if (!data || isValidating || isLoadingWiki) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <ClipLoader size={40} />
@@ -144,12 +164,12 @@ const ExchangePage: NextPage = () => {
           </tbody>
         </table>
       </div>
-      <div className="mt-5">
-        <h1 className="font-headings text-md mt-2 mb-4">What is {name}?</h1>
-        <p className="text-justify leading-10">
-          {wiki.query.pages[28249265].extract}
-        </p>
-      </div>
+      {wikiExtract ? (
+        <div className="mt-5">
+          <h1 className="font-headings text-md mt-2 mb-4">What is {name}?</h1>
+          <p className="text-justify leading-10">{wikiExtract}</p>
+        </div>
+      ) : null}
     </Layout>
   );
 };
