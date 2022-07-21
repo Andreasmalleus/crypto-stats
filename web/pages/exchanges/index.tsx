@@ -90,7 +90,7 @@ const ExchangesPage: React.FC<ExchangesPageProps> = () => {
                   <span className="ml-2">{name}</span>
                 </div>
               </th>
-              <th className="table-entry">{trust_score}</th>
+              <th className="table-entry text-left">{trust_score}</th>
               <th className="table-entry">
                 {formatCurrency(trade_volume_24h_btc)}
               </th>
