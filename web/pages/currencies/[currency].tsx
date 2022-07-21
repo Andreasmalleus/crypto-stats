@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import { Layout } from "../../components/Layout";
-import { NameSection } from "../../components/NameSection";
-import { StatsSection } from "../../components/StatsSection";
+import { NameSection } from "../../components/Sections/NameSection";
+import { StatsSection } from "../../components/Sections/StatsSection";
 import Image from "next/image";
 import Link from "next/link";
 import { Chart } from "../../components/Chart";
 import { Converter } from "../../components/Converter";
-import { SideSection } from "../../components/SideSection";
+import { SideSection } from "../../components/Sections/SideSection";
 import { withRouter } from "next/router";
 import useSWR from "swr";
 import { fetchRoute } from "../../utils/fetchRoute";
@@ -33,7 +33,6 @@ const CryptoPage: NextPage<any> = ({ router }) => {
   }, [wikiData]);
 
   const getExtractFromWiki = (wikiData: any) => {
-    console.log(wikiData);
     if (wikiData) {
       const key = Object.keys(wikiData?.query?.pages)[0];
       const page = wikiData.query.pages[key];
@@ -116,7 +115,9 @@ const CryptoPage: NextPage<any> = ({ router }) => {
       </div>
       <div className="flex pb-5">
         <div className="flex-col w-8/12 items-center">
-          <Chart slug={currency} />
+          <div className="w-full h-5/6">
+            <Chart slug={currency} />
+          </div>
           <Converter logo={logo} symbol={symbol} name={name} id={currencyId} />
         </div>
         <SideSection

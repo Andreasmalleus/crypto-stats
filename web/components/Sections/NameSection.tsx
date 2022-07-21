@@ -1,14 +1,17 @@
 import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import { ClipLoader } from "react-spinners";
-import { FAVORITE_MUTATION, UNFAVORITE_MUTATION } from "../graphql/mutations";
-import { FAVORITES_QUERY } from "../graphql/queries";
-import { checkIfFavorite } from "../utils/checkIfFavorite";
-import { formatDate } from "../utils/formatDate";
+import {
+  FAVORITE_MUTATION,
+  UNFAVORITE_MUTATION,
+} from "../../graphql/mutations";
+import { FAVORITES_QUERY } from "../../graphql/queries";
+import { checkIfFavorite } from "../../utils/checkIfFavorite";
+import { formatDate } from "../../utils/formatDate";
 import {
   handleAddToWatchlist,
   handleRemoveFromWatchlist,
-} from "../utils/handleWatchlist";
+} from "../../utils/handleWatchlist";
 
 interface NameSectionProps {
   id: number;

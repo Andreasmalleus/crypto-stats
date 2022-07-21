@@ -1,6 +1,6 @@
-import { formatCurrency } from "../utils/formatCurrency";
-import { formatPercentageToTwoDecimalPlaces } from "../utils/formatPercentage";
-import { getColor } from "../utils/getColor";
+import { formatCurrency } from "../../utils/formatCurrency";
+import { formatPercentageToTwoDecimalPlaces } from "../../utils/formatPercentage";
+import { getColor } from "../../utils/getColor";
 
 interface SideSectionProps {
   name: string;

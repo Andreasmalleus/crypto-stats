@@ -1,5 +1,5 @@
-import { formatCurrency } from "../utils/formatCurrency";
-import { getColor } from "../utils/getColor";
+import { formatCurrency } from "../../utils/formatCurrency";
+import { getColor } from "../../utils/getColor";
 
 interface StatsSectionProps {
   name: string;
