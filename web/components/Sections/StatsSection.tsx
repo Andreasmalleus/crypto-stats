@@ -10,7 +10,7 @@ interface StatsSectionProps {
   marketCapDominance: number;
   fullyDilutedMarket_cap: number;
   volume24h: number;
-  circulatinSupply: number;
+  circulatingSupply: number;
   maxSupply: number;
   totalSupply: number;
 }
@@ -24,7 +24,7 @@ export const StatsSection: React.FC<StatsSectionProps> = ({
   marketCapDominance,
   fullyDilutedMarket_cap,
   volume24h,
-  circulatinSupply,
+  circulatingSupply,
   maxSupply,
   totalSupply,
 }) => {
@@ -36,7 +36,7 @@ export const StatsSection: React.FC<StatsSectionProps> = ({
   };
   const volumePercentage = calculatePercentageFromSupply(
     maxSupply,
-    circulatinSupply
+    circulatingSupply
   );
 
   return (
@@ -68,7 +68,7 @@ export const StatsSection: React.FC<StatsSectionProps> = ({
           <div className="text-xs text-slate-600 mb-2">Circulating Supply</div>
           <div className="flex items-center text-xs mb-2 justify-between">
             <div className="text-xs">
-              {formatCurrency(circulatinSupply)} {symbol}
+              {formatCurrency(circulatingSupply)} {symbol}
             </div>
             <div className="text-xs">{volumePercentage.toFixed(0)}%</div>
           </div>
@@ -96,6 +96,7 @@ export const StatsSection: React.FC<StatsSectionProps> = ({
 };
 
 const Stat: React.FC<{ value: number; title: string }> = ({ value, title }) => {
+  console.log(value);
   return (
     <div className="mt-4 border-r-2 border-slate-100 p-4">
       <div className="text-xs text-slate-600 mb-2">{title}</div>

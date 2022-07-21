@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactHighcharts from "react-highcharts/ReactHighstock.src";
 import { getChartOptions } from "./options";
-import { data } from "../../data.js";
-import { formatSlug } from "../../utils/formatSlug";
 import useSWR from "swr";
 import { fetchRoute } from "../../utils/fetchRoute";
 import { ClipLoader } from "react-spinners";
@@ -16,11 +14,11 @@ export const Chart: React.FC<ChartProps> = ({ slug }) => {
   const [chartData, setChartData] = useState<number[][] | null>(null);
 
   const { data, error, isValidating } = useSWR(
-    `/api/metrics/historical?slug=${formatSlug(
-      slug
-    )}&days=${days}&currency=${"eur"}`,
+    `/api/metrics/historical?slug=${slug}&days=${days}&currency=${"eur"}`,
     fetchRoute
   );
+
+  console.log(data);
 
   useEffect(() => {
     if (data) {

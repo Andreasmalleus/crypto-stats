@@ -44,7 +44,7 @@ export const SideSection: React.FC<SideSectionProps> = ({
         </div>
         <div className="flex-col">
           <div className="text-sm">
-            €{formatCurrency(percentChange24h * price)}
+            {formatCurrency(percentChange24h * price)}
           </div>
           <div
             className="text-right text-xs font-headings"

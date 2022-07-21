@@ -107,7 +107,7 @@ const CryptoPage: NextPage<any> = ({ router }) => {
             marketCapDominance: quote.EUR.market_cap_dominance,
             fullyDilutedMarket_cap: quote.EUR.fully_diluted_market_cap,
             volume24h: quote.EUR.volume_24h,
-            circulatinSupply: circulating_supply,
+            circulatingSupply: circulating_supply,
             maxSupply: max_supply,
             totalSupply: total_supply,
           }}
