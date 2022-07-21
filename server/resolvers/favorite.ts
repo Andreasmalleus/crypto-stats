@@ -4,57 +4,55 @@ import { myContext } from "../types";
 
 @Resolver(Favorite)
 export class FavoriteResolver {
-
-  @Mutation(() => Favorite || null, {nullable : true})
+  @Mutation(() => Favorite || null, { nullable: true })
   async favorite(
-    @Arg("id", () => Int) id: number,
+    @Arg("cryptoId", () => Int) cryptoId: number,
     @Arg("category") category: string,
-    @Ctx() { prisma, req } : myContext
+    @Ctx() { prisma, req }: myContext
   ) {
-    const {userId} = req.session;
+    const { userId } = req.session;
 
     const favorites = await prisma.favorite.findMany({
-      where : {
-        userId : userId,
-      }
-    })
-
+      where: {
+        userId,
+      },
+    });
     //check if favorites already exists
-    const exists = favorites.find(favorite => favorite.id === id);
-    if(exists){
-      return null
+    const exists = favorites.find((favorite) => favorite.cryptoId === cryptoId);
+    if (exists) {
+      return null;
     }
-    let favorite = null
-    try{
+    let favorite = null;
+    try {
       favorite = await prisma.favorite.create({
-        data : {
-          id : id,
-          userId : userId,
-          category : category
-        }
-      })
-    }catch(e){
+        data: {
+          cryptoId,
+          userId: userId,
+          category: category,
+        },
+      });
+    } catch (e) {
       console.log(e);
       return null;
     }
     return favorite;
-  }  
+  }
 
   @Mutation(() => Boolean)
   async unfavorite(
-    @Arg("id", () => Int) id: number,
+    @Arg("cryptoId", () => Int) cryptoId: number,
     @Arg("category", () => String) category: string,
-    @Ctx() { prisma, req } : myContext
-  ){
-    const {userId} = req.session;
+    @Ctx() { prisma, req }: myContext
+  ) {
+    const { userId } = req.session;
     const favorite = await prisma.favorite.deleteMany({
-      where : {
-        id : id,
-        userId : userId,
-        category : category,
-      }
-    })  
-    if(favorite){
+      where: {
+        cryptoId,
+        userId: userId,
+        category: category,
+      },
+    });
+    if (favorite) {
       return true;
     }
     return false;
@@ -63,15 +61,15 @@ export class FavoriteResolver {
   @Query(() => [Favorite])
   async favorites(
     @Arg("category", () => String) category: string,
-    @Ctx() { prisma, req } : myContext
-  ){
-    const {userId} = req.session;
+    @Ctx() { prisma, req }: myContext
+  ) {
+    const { userId } = req.session;
     const favorites = prisma.favorite.findMany({
-      where : {
-        userId : userId,
-        category : category
-      }
-    })
+      where: {
+        userId: userId,
+        category: category,
+      },
+    });
     return favorites;
   }
 }

@@ -26,6 +26,7 @@ import { GenericList } from "../components/GenericList";
 const Home: NextPage = () => {
   const { data, error, isValidating } = useSwr("api/listings", fetchRoute);
   const listings: Listing[] = data?.data;
+  const { searchInput } = useContext(SearchContext);
 
   const [addToWatchlist] = useMutation(FAVORITE_MUTATION);
   const [removeFromWatchlist] = useMutation(UNFAVORITE_MUTATION);
@@ -57,8 +58,6 @@ const Home: NextPage = () => {
       </Layout>
     );
   }
-
-  const { searchInput } = useContext(SearchContext);
 
   return (
     <Layout>
@@ -95,9 +94,15 @@ const Home: NextPage = () => {
                     width={13}
                     height={13}
                     className="cursor-pointer"
-                    onClick={() =>
-                      handleRemoveFromWatchlist(id, removeFromWatchlist)
-                    }
+                    onClick={() => {
+                      console.log(id);
+                      handleRemoveFromWatchlist(
+                        id,
+                        favoritesData.favorites,
+                        removeFromWatchlist,
+                        apollo.cache
+                      );
+                    }}
                   />
                 ) : (
                   <Image

@@ -8,14 +8,15 @@ export const ME_QUERY = gql`
       username
     }
   }
-  `
+`;
 
 export const FAVORITES_QUERY = gql`
   query Favorites($category: String!) {
     favorites(category: $category) {
       id
+      cryptoId
       category
       userId
     }
   }
-`
+`;

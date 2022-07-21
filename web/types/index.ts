@@ -1,8 +1,7 @@
 export type FieldError = {
-    field: string;
-    message: string;
-  } | null;
-
+  field: string;
+  message: string;
+} | null;
 
 export type Listing = {
   id: number;
@@ -20,26 +19,26 @@ export type Listing = {
   self_reported_circulating_supply?: any;
   self_reported_market_cap?: any;
   last_updated: Date;
-  quote : Quote
-}
+  quote: Quote;
+};
 
 export type Quote = {
-  EUR : {
+  EUR: {
     price: number;
-        volume_24h: number;
-        volume_change_24h: number;
-        percent_change_1h: number;
-        percent_change_24h: number;
-        percent_change_7d: number;
-        percent_change_30d: number;
-        percent_change_60d: number;
-        percent_change_90d: number;
-        market_cap: number;
-        market_cap_dominance: number;
-        fully_diluted_market_cap: number;
-        last_updated: Date;
-  }
-}
+    volume_24h: number;
+    volume_change_24h: number;
+    percent_change_1h: number;
+    percent_change_24h: number;
+    percent_change_7d: number;
+    percent_change_30d: number;
+    percent_change_60d: number;
+    percent_change_90d: number;
+    market_cap: number;
+    market_cap_dominance: number;
+    fully_diluted_market_cap: number;
+    last_updated: Date;
+  };
+};
 
 export type Exchange = {
   id: number;
@@ -47,9 +46,9 @@ export type Exchange = {
   name: string;
   trust_score: number;
   trade_volume_24h_btc: number;
-  country : string;
-  year_established : string;
-}
+  country: string;
+  year_established: string;
+};
 
 export type ExchangeTicker = {
   base: string;
@@ -70,10 +69,10 @@ export type ExchangeTicker = {
   trade_url: string;
   trust_score: string;
   volume: number;
-}
+};
 
 export type Favorite = {
   category: string;
-  id: number;
   userId: number;
+  cryptoId: number;
 };

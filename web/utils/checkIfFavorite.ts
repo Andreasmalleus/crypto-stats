@@ -1,10 +1,13 @@
 import { Favorite } from "../types";
 
-export const checkIfFavorite = (id: number, favorites : Favorite[]) : boolean=> {
+export const checkIfFavorite = (
+  cryptoId: number,
+  favorites: Favorite[]
+): boolean => {
   for (let i = 0; i < favorites.length; i++) {
-    if (favorites[i].id === id) {
+    if (favorites[i]?.cryptoId === cryptoId) {
       return true;
     }
   }
   return false;
-}
+};
